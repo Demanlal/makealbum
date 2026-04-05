@@ -1,1 +1,1 @@
-web: gunicorn photoapp.wsgi:application && python manage.py migrate && python manage.py collectstatic --noinput
+web: gunicorn qralbum1.wsgi:application && python manage.py migrate
