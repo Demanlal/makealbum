@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Request New Album</title>
+
+    <!-- Bootstrap 5 -->
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #0f172a, #020617);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .card {
+            border-radius: 16px;
+            box-shadow: 0 20px 50px rgba(0,0,0,.4);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <div class="card p-4">
+                <h3 class="text-center mb-4">
+                    📸 Request New Album
+                </h3>
+
+                <form method="post">
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        {{ form.title.label_tag }}
+                        {{ form.title }}
+                        {% if form.title.errors %}
+                            <div class="text-danger small">
+                                {{ form.title.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">
+                        Submit Request
+                    </button>
+                </form>
+
+                <hr>
+
+                <p class="text-center text-muted small">
+                    ⏳ Album will be created after admin approval
+                </p>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

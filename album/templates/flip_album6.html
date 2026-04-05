@@ -1,0 +1,481 @@
+{% load static %}
+<html>
+<head>
+  <title>{{ album.title }} | Flipix</title>
+     {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+  <style>
+    body {
+      background: #111;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: Arial;
+    }
+
+    h2 {
+      color: white;
+      margin-bottom: 15px;
+    }
+
+    .book {
+      position: relative;
+      width: 600px;
+      height: 420px;
+      perspective: 3000px;
+    }
+
+    .page {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: white;
+      transform-origin: left;
+      transform-style: preserve-3d;
+      transition: transform 1s ease, opacity 1s ease, filter 1s ease;
+      backface-visibility: hidden;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+    }
+
+    .page img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .page.flipped {
+      transform: rotateY(-180deg);
+      opacity: 0.95;
+    }
+    /* 🎬 FULL SCREEN VIDEO BACKGROUND */
+    #bgVideo{
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: -2;
+    }
+    /* DARK OVERLAY (optional but looks premium) */
+    body::before{
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      z-index: -1;
+    }
+
+    /* 📖 CENTER BOOK */
+    .book-wrapper{
+      min-height: 50vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* BOOK STYLE */
+    .book{
+      position: relative;
+      width: 450px;
+      height: 300px;
+      perspective: 3000px;
+    }
+
+
+    .video-controls{
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(0,0,0,0.6);
+      padding: 12px 15px;
+      border-radius: 10px;
+      color: #fff;
+      z-index: 10;
+    }
+
+    .video-controls label{
+      display: block;
+      cursor: pointer;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+
+
+
+    /* TRANSITIONS POOL */
+    .fade { opacity: 50; transition: opacity 4s; }
+    .zoom-in { transform: scale(0.8); transition: transform 4s; }
+    .zoom-out { transform: scale(1.2); transition: transform 4s; }
+    .rotate-left { transform: rotate(-100deg); transition: transform 4s; }
+    .rotate-right { transform: rotate(100deg); transition: transform 4s; }
+    .pan-left { transform: translateX(-50px); transition: transform 4s; }
+    .pan-right { transform: translateX(50px); transition: transform 4s; }
+    .pan-up { transform: translateY(-50px); transition: transform 4s; }
+    .pan-down { transform: translateY(50px); transition: transform 4s; }
+    .blur { filter: blur(5px); transition: filter 4s; }
+    .grayscale { filter: grayscale(100%); transition: filter 4s; }
+    .brightness { filter: brightness(1.5); transition: filter 4s; }
+    .darken { filter: brightness(0.6); transition: filter 4s; }
+    .flip-x { transform: rotateX(100deg); transition: transform 4s; }
+    .flip-y { transform: rotateY(100deg); transition: transform 4s; }
+    .skew { transform: skew(10deg,5deg); transition: transform 4s; }
+
+    .controls { margin-top: 15px; }
+    button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
+
+        /* 🎵 MUSIC */
+    audio{margin-bottom:20px}
+
+
+
+    /* Vertical Shutter Reveal */
+.shutter-in {
+  clip-path: inset(0% 50% 0% 50%); /* बीच से बंद */
+  transition: clip-path 4s ease;
+}
+.shutter-in.active {
+  clip-path: inset(0% 0% 0% 0%); /* पूरा खुल गया */
+}
+    .perspective-tilt {
+  transform: perspective(1000px) rotateX(30deg) translateY(50px);
+  opacity: 0;
+  transition: all 4s cubic-bezier(0.2, 1, 0.3, 1);
+}
+.perspective-tilt.active {
+  transform: perspective(1000px) rotateX(50deg) translateY(0);
+  opacity: 1;
+}
+    .diamond-reveal {
+  clip-path: polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%);
+  transition: clip-path 4s ease-in-out;
+}
+.diamond-reveal.active {
+  clip-path: polygon(50% -20%, 120% 50%, 50% 120%, -20% 50%);
+}
+
+    .ghost-fade {
+  filter: blur(20px);
+  transform: scale(1.5);
+  opacity: 0;
+}
+.ghost-fade.active {
+  filter: blur(0);
+  transform: scale(1);
+  opacity: 1;
+}
+.elastic-slide {
+  transform: translateX(100%);
+  /* Custom Bezier for Elastic effect */
+  transition: transform 4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+.elastic-slide.active {
+  transform: translateX(0);
+}
+
+
+
+  </style>
+</head>
+
+<body>
+<h2>{{ album.title }}</h2>
+
+<!-- 🎬 BACKGROUND VIDEO -->
+<!--<video id="bgVideo" autoplay muted loop playsinline>-->
+<!--  <source src="{% static 'vecteezy_beautiful-waterfall-in-the-tropical-jungle_27975424.mp4' %}" type="video/mp4">-->
+<!--</video>-->
+<!-- 🎬 BACKGROUND VIDEO -->
+<video id="bgVideo" autoplay muted loop playsinline>
+  <source id="bgSource"
+    src="{% static 'video1.mp4' %}"
+    type="video/mp4">
+</video>
+
+<!-- 🎛️ VIDEO SELECTOR -->
+<div class="video-controls">
+  <label>
+    <input type="radio" name="bgvideo" checked
+           onchange="changeVideo('{% static 'video1.mp4' %}')">
+    Waterfall
+  </label>
+
+  <label>
+    <input type="radio" name="bgvideo"
+           onchange="changeVideo('{% static 'video2.mp4' %}')">
+    Forest
+  </label>
+
+  <label>
+    <input type="radio" name="bgvideo"
+           onchange="changeVideo('{% static 'video3.mp4' %}')">
+    Wedding
+  </label>
+</div>
+
+
+<!-- 📖 FLIP BOOK -->
+<div class="book-wrapper">
+  <div class="book" id="book">
+    {% for photo in photos %}
+      <div class="page" style="z-index: {{ forloop.revcounter }}">
+        <img src="{{ photo.image.url }}">
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+
+<div class="controls">
+  <button onclick="prevPage()">⬅ Prev</button>
+  <button onclick="nextPage()">Next ➡</button>
+</div>
+
+<!-- 🎵 MUSIC -->
+{% if music_url %}
+<!--<audio controls autoplay loop style="padding-top:20px;">-->
+<!--  <source src="{{ music_url }}" type="audio/mpeg">-->
+<!--</audio>-->
+<audio autoplay controls>
+  <source src="{{ music_url }}?v={{ now|date:'U' }}" type="audio/mpeg">
+</audio>
+
+{% endif %}
+
+<!--<script>-->
+<!--const pages = document.querySelectorAll(".page");-->
+<!--let current = 0;-->
+<!--let transitionIndex = 0;-->
+
+<!--/* "fade",-->
+<!--   "blur","grayscale","brightness","darken",-->
+<!--   "rotate-left","rotate-right",-->
+
+<!--   "shutter-in", "shutter-out",-->
+<!--   "diamond-reveal",-->
+<!--   "perspective-tilt",*/-->
+
+
+<!--/*-->
+<!--   "skew","elastic-slide", "glitch-shift"*/-->
+
+
+<!--const transitions = [-->
+<!--   "zoom-in","zoom-out",-->
+<!--   "pan-left","pan-right",-->
+<!--   "flip-x","flip-y",-->
+<!--   "pan-up","pan-down",-->
+<!--   "bounce-drop",-->
+<!--   "ghost-fade",-->
+
+
+<!--];-->
+
+<!--function applySequentialTransition(page){-->
+<!--  const t = transitions[transitionIndex];-->
+<!--  page.classList.add(t);-->
+
+<!--  setTimeout(() => page.classList.remove(t), 1500);-->
+
+<!--  transitionIndex = (transitionIndex + 1) % transitions.length;-->
+<!--}-->
+
+<!--/* ▶ NEXT PAGE */-->
+<!--function nextPage() {-->
+<!--  if (current < pages.length) {-->
+<!--    pages[current].classList.add("flipped");-->
+<!--    applySequentialTransition(pages[current]);-->
+<!--    current++;-->
+<!--  }-->
+<!--}-->
+
+<!--/* ◀ PREVIOUS PAGE */-->
+<!--function prevPage() {-->
+<!--  if (current > 0) {-->
+<!--    current&#45;&#45;;-->
+<!--    pages[current].classList.remove("flipped");   // reverse flip-->
+<!--    applySequentialTransition(pages[current]);-->
+<!--  }-->
+<!--}-->
+<!--</script>-->
+<script>
+const pages = document.querySelectorAll(".page");
+let current = 0;
+let transitionIndex = 0;
+let autoPlay = true;
+const INTERVAL_TIME = 4000; // 4 sec per page
+
+const transitions = [
+  "zoom-in","zoom-out",
+  "pan-left","pan-right",
+  "flip-x","flip-y",
+  "pan-up","pan-down",
+  "ghost-fade"
+];
+
+function applySequentialTransition(page){
+  const t = transitions[transitionIndex];
+  page.classList.add(t);
+
+  setTimeout(() => {
+    page.classList.remove(t);
+  }, 1500);
+
+  transitionIndex = (transitionIndex + 1) % transitions.length;
+}
+
+/* ▶ NEXT PAGE (FORWARD FLIP) */
+function nextPage(manual = true) {
+  if(manual) stopAuto();
+
+  if (current < pages.length) {
+    pages[current].classList.add("flipped");
+    applySequentialTransition(pages[current]);
+    current++;
+  } else {
+    resetBook();
+  }
+}
+
+/* ◀ PREVIOUS PAGE (REVERSE FLIP STYLE) */
+function prevPage(manual = true) {
+  if(manual) stopAuto();
+
+  if (current > 0) {
+    current--;
+    pages[current].classList.add("reverse");
+    pages[current].classList.remove("flipped");
+    applySequentialTransition(pages[current]);
+
+    setTimeout(()=>{
+      pages[current].classList.remove("reverse");
+    },1000);
+  }
+}
+
+/* 🔄 AUTO SLIDE */
+function autoSlide(){
+  if(autoPlay){
+    nextPage(false);
+  }
+}
+
+let slideTimer = setInterval(autoSlide, INTERVAL_TIME);
+
+function stopAuto(){
+  autoPlay = false;
+  clearInterval(slideTimer);
+}
+
+ /*🔁 RESET BOOK
+function resetBook(){
+  current = 0;
+  pages.forEach(p=>{
+    p.classList.remove("flipped","reverse");
+  });
+}*/
+</script>
+<script>
+function changeVideo(src){
+  const video = document.getElementById("bgVideo");
+  const source = document.getElementById("bgSource");
+
+  video.pause();
+  source.src = src;
+  video.load();
+  video.play();
+}
+</script>
+
+<!--<script>-->
+<!--const pages = document.querySelectorAll(".page");-->
+<!--let current = 0;-->
+<!--let transitionIndex = 0;-->
+<!--let autoPlay = true;-->
+<!--let direction = "forward"; // 👉 forward | backward-->
+
+<!--const INTERVAL_TIME = 4000;-->
+
+<!--const transitions = [-->
+<!--  "zoom-in","zoom-out",-->
+<!--  "pan-left","pan-right",-->
+<!--  "flip-x","flip-y",-->
+<!--  "pan-up","pan-down",-->
+<!--  "ghost-fade"-->
+<!--];-->
+
+<!--function applySequentialTransition(page){-->
+<!--  const t = transitions[transitionIndex];-->
+<!--  page.classList.add(t);-->
+
+<!--  setTimeout(() => {-->
+<!--    page.classList.remove(t);-->
+<!--  }, 1500);-->
+
+<!--  transitionIndex = (transitionIndex + 1) % transitions.length;-->
+<!--}-->
+
+<!--/* ▶ NEXT PAGE */-->
+<!--function nextPage(manual = true) {-->
+<!--  if(manual) stopAuto();-->
+
+<!--  if (current < pages.length) {-->
+<!--    pages[current].classList.add("flipped");-->
+<!--    applySequentialTransition(pages[current]);-->
+<!--    current++;-->
+<!--  }-->
+<!--}-->
+
+<!--/* ◀ PREVIOUS PAGE */-->
+<!--function prevPage(manual = true) {-->
+<!--  if(manual) stopAuto();-->
+
+<!--  if (current > 0) {-->
+<!--    current&#45;&#45;;-->
+<!--    pages[current].classList.add("reverse");-->
+<!--    pages[current].classList.remove("flipped");-->
+<!--    applySequentialTransition(pages[current]);-->
+
+<!--    setTimeout(()=>{-->
+<!--      pages[current].classList.remove("reverse");-->
+<!--    },1000);-->
+<!--  }-->
+<!--}-->
+
+<!--/* 🔄 AUTO SLIDE WITH AUTO REVERSE */-->
+<!--function autoSlide(){-->
+<!--  if(!autoPlay) return;-->
+
+<!--  if(direction === "forward"){-->
+<!--    if(current < pages.length){-->
+<!--      nextPage(false);-->
+<!--    } else {-->
+<!--      direction = "backward"; // 🔁 reverse start-->
+<!--    }-->
+<!--  }-->
+<!--  else if(direction === "backward"){-->
+<!--    if(current > 0){-->
+<!--      prevPage(false);-->
+<!--    } else {-->
+<!--      direction = "forward"; // 🔁 forward again-->
+<!--    }-->
+<!--  }-->
+<!--}-->
+
+<!--let slideTimer = setInterval(autoSlide, INTERVAL_TIME);-->
+
+<!--function stopAuto(){-->
+<!--  autoPlay = false;-->
+<!--  clearInterval(slideTimer);-->
+<!--}-->
+<!--</script>-->
+
+
+</body>
+</html>

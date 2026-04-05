@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Album</title>
+
+    <!-- Bootstrap 5 -->
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+</head>
+
+<body class="bg-light">
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+
+        <div class="col-md-6">
+
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">✏️ Edit Album</h4>
+                </div>
+
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            <label class="form-label">Album Title</label>
+                            <input type="text"
+                                   name="title"
+                                   class="form-control"
+                                   value="{{ album.title }}"
+                                   required>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'approve-albums' %}" class="btn btn-secondary">
+                                ⬅ Back
+                            </a>
+
+                            <button class="btn btn-success">
+                                💾 Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

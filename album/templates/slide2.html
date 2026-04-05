@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>PPT Style Slideshow</title>
+
+<!--<style>-->
+<!--*{box-sizing:border-box}-->
+
+<!--body{-->
+<!--  margin:0;-->
+<!--  background:#000;-->
+<!--  overflow:hidden;-->
+<!--  font-family:Arial,Helvetica,sans-serif;-->
+<!--}-->
+
+<!--/* SLIDER */-->
+<!--.slider{-->
+<!--  position:relative;-->
+<!--  width:100vw;-->
+<!--  height:100vh;-->
+<!--  overflow:hidden;-->
+<!--}-->
+
+<!--/* SLIDES */-->
+<!--.slide{-->
+<!--  position:absolute;-->
+<!--  inset:0;-->
+<!--  width:100%;-->
+<!--  height:100%;-->
+<!--  object-fit:cover;-->
+
+<!--  opacity:0;-->
+<!--  transition:all 0.9s ease-in-out;-->
+
+<!--  backface-visibility:hidden;-->
+<!--  transform-style:preserve-3d;-->
+<!--}-->
+
+<!--.slide.active{-->
+<!--  opacity:1;-->
+<!--  z-index:2;-->
+<!--}-->
+
+<!--/* CONTROLS */-->
+<!--.controls{-->
+<!--  position:fixed;-->
+<!--  bottom:20px;-->
+<!--  left:50%;-->
+<!--  transform:translateX(-50%);-->
+<!--  display:flex;-->
+<!--  gap:15px;-->
+<!--}-->
+
+<!--.controls button{-->
+<!--  padding:10px 20px;-->
+<!--  font-size:16px;-->
+<!--  border:none;-->
+<!--  border-radius:6px;-->
+<!--  cursor:pointer;-->
+<!--  background:#fff;-->
+<!--}-->
+
+<!--/* ================= TRANSITIONS ================= */-->
+
+<!--.fade{opacity:0}-->
+<!--.fade.active{opacity:1}-->
+
+<!--.slide-left{transform:translateX(100%)}-->
+<!--.slide-left.active{transform:translateX(0)}-->
+
+<!--.slide-right{transform:translateX(-100%)}-->
+<!--.slide-right.active{transform:translateX(0)}-->
+
+<!--.slide-up{transform:translateY(100%)}-->
+<!--.slide-up.active{transform:translateY(0)}-->
+
+<!--.slide-down{transform:translateY(-100%)}-->
+<!--.slide-down.active{transform:translateY(0)}-->
+
+<!--.zoom-in{transform:scale(1.4)}-->
+<!--.zoom-in.active{transform:scale(1)}-->
+
+<!--.zoom-out{transform:scale(.5)}-->
+<!--.zoom-out.active{transform:scale(1)}-->
+
+<!--.flip-x{transform:rotateX(90deg)}-->
+<!--.flip-x.active{transform:rotateX(0)}-->
+
+<!--.flip-y{transform:rotateY(90deg)}-->
+<!--.flip-y.active{transform:rotateY(0)}-->
+
+<!--.rotate{transform:rotate(180deg) scale(.3)}-->
+<!--.rotate.active{transform:rotate(0) scale(1)}-->
+
+<!--.cube{transform-origin:right center;transform:rotateY(-90deg)}-->
+<!--.cube.active{transform:rotateY(0)}-->
+
+<!--.wipe{clip-path:inset(0 100% 0 0)}-->
+<!--.wipe.active{clip-path:inset(0 0 0 0)}-->
+
+<!--.blur{filter:blur(15px)}-->
+<!--.blur.active{filter:blur(0)}-->
+
+<!--.flash{filter:brightness(4);opacity:0}-->
+<!--.flash.active{filter:brightness(1);opacity:1}-->
+
+<!--.ripple{filter:blur(12px);transform:scale(1.2)}-->
+<!--.ripple.active{filter:none;transform:scale(1)}-->
+
+<!--.circle{clip-path:circle(0% at 50% 50%)}-->
+<!--.circle.active{clip-path:circle(150% at 50% 50%)}-->
+
+<!--.kenburns{transform:scale(1.4) translate(-40px,-40px)}-->
+<!--.kenburns.active{transform:scale(1) translate(0,0)}-->
+
+<!--.vortex{transform:rotate(720deg) scale(0)}-->
+<!--.vortex.active{transform:rotate(0) scale(1)}-->
+<!--</style>-->
+<style>
+    .fade{opacity:0}
+.fade.active{opacity:1}
+
+.slide-left{transform:translateX(100%)}
+.slide-left.active{transform:translateX(0)}
+
+.slide-right{transform:translateX(-100%)}
+.slide-right.active{transform:translateX(0)}
+
+.slide-up{transform:translateY(100%)}
+.slide-up.active{transform:translateY(0)}
+
+.slide-down{transform:translateY(-100%)}
+.slide-down.active{transform:translateY(0)}
+
+.zoom-in{transform:scale(1.5)}
+.zoom-in.active{transform:scale(1)}
+
+.zoom-out{transform:scale(.5)}
+.zoom-out.active{transform:scale(1)}
+
+.flip-x{transform:rotateX(90deg)}
+.flip-x.active{transform:rotateX(0)}
+
+.flip-y{transform:rotateY(90deg)}
+.flip-y.active{transform:rotateY(0)}
+
+.rotate{transform:rotate(180deg) scale(.3)}
+.rotate.active{transform:rotate(0) scale(1)}
+
+.cube{transform-origin:right center;transform:rotateY(-90deg)}
+.cube.active{transform:rotateY(0)}
+
+.push{transform:translateX(100%)}
+.push.active{transform:translateX(0)}
+
+.wipe{clip-path:inset(0 100% 0 0)}
+.wipe.active{clip-path:inset(0 0 0 0)}
+
+.blur{filter:blur(15px)}
+.blur.active{filter:blur(0)}
+
+.flash{filter:brightness(4);opacity:0}
+.flash.active{filter:brightness(1);opacity:1}
+
+/* ADVANCED */
+.ripple{filter:blur(12px);transform:scale(1.2)}
+.ripple.active{filter:none;transform:scale(1)}
+
+.dissolve{filter:contrast(300%) grayscale(100%);opacity:0}
+.dissolve.active{filter:none;opacity:1}
+
+.circle{clip-path:circle(0% at 50% 50%)}
+.circle.active{clip-path:circle(150% at 50% 50%)}
+
+.radial{clip-path:ellipse(0% 0% at 50% 50%)}
+.radial.active{clip-path:ellipse(150% 150% at 50% 50%)}
+
+.curtain{clip-path:inset(0 50% 0 50%)}
+.curtain.active{clip-path:inset(0 0 0 0)}
+
+.stretch{transform:scaleX(0)}
+.stretch.active{transform:scaleX(1)}
+
+.kenburns{transform:scale(1.4) translate(-30px,-30px)}
+.kenburns.active{transform:scale(1) translate(0,0)}
+
+.skew{transform:skewX(25deg) translateX(100%)}
+.skew.active{transform:skewX(0) translateX(0)}
+
+.vortex{transform:rotate(720deg) scale(0)}
+.vortex.active{transform:rotate(0) scale(1)}
+
+.fly{transform:translateZ(-800px) scale(.2)}
+.fly.active{transform:translateZ(0) scale(1)}
+
+</style>
+</head>
+
+<body>
+
+<!-- SLIDES -->
+<div class="slider">
+  {% for photo in photos %}
+    <img src="{{ photo.image.url }}" class="slide {% if forloop.first %}active{% endif %}">
+  {% endfor %}
+</div>
+
+<!-- CONTROLS -->
+<div class="controls">
+  <button onclick="prevSlide()">⏮ Prev</button>
+  <button onclick="nextSlide()">Next ⏭</button>
+</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+let index = 0;
+let fxIndex = 0;
+
+/* TRANSITION LIST */
+const effects = [
+  "fade","slide-left","slide-right","slide-up","slide-down",
+  "zoom-in","zoom-out","flip-x","flip-y",
+  "rotate","cube","wipe","blur","flash",
+  "ripple","circle","kenburns","vortex"
+];
+
+function applySlide(nextIndex){
+  const current = slides[index];
+  index = (nextIndex + slides.length) % slides.length;
+  const next = slides[index];
+
+  const effect = effects[fxIndex % effects.length];
+  fxIndex++;
+
+  current.className = "slide";
+  next.className = "slide " + effect;
+
+  requestAnimationFrame(()=>{
+    current.classList.remove("active");
+    next.classList.add("active");
+  });
+}
+
+function nextSlide(){
+  applySlide(index + 1);
+}
+
+function prevSlide(){
+  applySlide(index - 1);
+}
+
+/* AUTO PLAY (optional) */
+setInterval(nextSlide, 4000);
+</script>
+
+</body>
+</html>

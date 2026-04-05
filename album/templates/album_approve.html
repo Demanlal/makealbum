@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% block content %}
+<div >
+
+    <div class="card shadow-lg">
+        <div class="card-header bg-dark text-white">
+            <h4 class="mb-0">📁 Album Management Panel</h4>
+        </div>
+
+        <div class="card-body">
+
+            {% if albums %}
+            <table class="table table-bordered table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Title</th>
+                        <th>Created By</th>
+                        <th>Photos</th>
+                        <th>Status</th>
+                        <th width="38%">Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                {% for album in albums %}
+                <tr>
+                    <td>{{ album.title }}</td>
+
+                    <td>{{ album.created_by.username }}</td>
+
+                    <td>
+                        <span class="badge bg-info">
+                            {{ album.photos.count }} Photos
+                        </span>
+                    </td>
+
+                    <td>
+                        {% if album.status == 'APPROVED' %}
+                            <span class="badge bg-success">Approved</span>
+                        {% elif album.status == 'REJECTED' %}
+                            <span class="badge bg-danger">Rejected</span>
+                        {% else %}
+                            <span class="badge bg-warning text-dark">Pending</span>
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        <!-- View -->
+                        <a href="{% url 'album-detail' album.id %}"
+                           class="btn btn-sm btn-primary">
+                            View
+                        </a>
+
+                        <!-- Approve (Only if Pending) -->
+                        {% if album.status == 'PENDING' %}
+                        <form method="post" class="d-inline">
+                            {% csrf_token %}
+                            <input type="hidden" name="album_id" value="{{ album.id }}">
+                            <input type="hidden" name="action" value="approve">
+                            <button class="btn btn-sm btn-success">
+                                Approve
+                            </button>
+                        </form>
+
+                        <form method="post" class="d-inline">
+                            {% csrf_token %}
+                            <input type="hidden" name="album_id" value="{{ album.id }}">
+                            <input type="hidden" name="action" value="reject">
+                            <button class="btn btn-sm btn-warning">
+                                Reject
+                            </button>
+                        </form>
+                        {% endif %}
+
+                        <!-- Edit -->
+                        <a href="{% url 'album-edit' album.id %}"
+                           class="btn btn-sm btn-secondary">
+                            Edit
+                        </a>
+
+                        <!-- Delete -->
+                        <form method="post" class="d-inline"
+                              onsubmit="return confirm('Are you sure you want to delete this album?');">
+                            {% csrf_token %}
+                            <input type="hidden" name="album_id" value="{{ album.id }}">
+                            <input type="hidden" name="action" value="delete">
+                            <button class="btn btn-sm btn-danger">
+                                Delete
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            {% else %}
+                <div class="alert alert-info text-center">
+                    No albums found
+                </div>
+            {% endif %}
+
+        </div>
+    </div>
+
+</div>
+{% endblock %}

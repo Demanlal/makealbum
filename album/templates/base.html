@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Album</title>
+
+    <!-- Bootstrap 5 CDN -->
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            min-height: 100vh;
+        }
+        .album-card:hover {
+            transform: translateY(-5px);
+            transition: 0.3s;
+        }
+    </style>
+</head>
+<body>
+{% block navbar %}
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+  <div class="container-fluid">
+    <!-- Logo -->
+    <img src="{% static 'img.png' %}" alt="sail-logo" style="height:60px; width:250px;">
+
+    <!-- 🛠️ Toggle button for mobile view -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar"
+      aria-controls="mynavbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    {% if user.userprofile.role == 'ADMIN' %}
+    <!-- 🧭 Navbar links -->
+    <div class="collapse navbar-collapse px-1" id="mynavbar">
+      <ul class="navbar-nav me-auto px-1" style="font-size: 20px;">
+        <!-- Registration Dropdown -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle fw-bold" href="#" role="button" data-bs-toggle="dropdown">Album</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{% url 'approve-albums' %}">Album details</a></li>
+          </ul>
+        </li>
+        <!-- More Info -->
+        <li class="nav-item dropdown fw-bold">
+          <a class="nav-link dropdown-toggle fw-bold" href="#" role="button" data-bs-toggle="dropdown">Users</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{% url 'approved-users' %}">User details</a></li>
+            <li><a class="dropdown-item" href="{% url 'user-approval' %}">Pending user</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown fw-bold">
+          <a class="nav-link dropdown-toggle fw-bold" href="#" role="button" data-bs-toggle="dropdown">
+            User Details
+          </a>
+          <ul class="dropdown-menu">
+            <li class="dropdown-item">
+              {{ request.user.username }}
+            </li>
+            <li>
+              <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    {% endif %}
+  </div>
+</nav>
+{% endblock %}
+<div class="container py-5">
+    {% block content %}
+    <!-- Your Page Content Goes Here -->
+    {% endblock %}
+</div>
+</body>
+</html>

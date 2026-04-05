@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card shadow-lg">
+    <div class="card-header bg-success text-white">
+        <h4>✅ Approved Users Management</h4>
+    </div>
+
+    <div class="card-body">
+
+        {% if users %}
+        <table class="table table-bordered table-hover align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                    <th width="35%">Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+            {% for profile in users %}
+            <tr>
+                <td>{{ profile.user.username }}</td>
+                <td>{{ profile.user.email }}</td>
+
+                <td>
+                    <span class="badge bg-info">{{ profile.role }}</span>
+                </td>
+
+                <td>
+                    {% if profile.is_approved %}
+                        <span class="badge bg-success">Active</span>
+                    {% else %}
+                        <span class="badge bg-warning text-dark">Inactive</span>
+                    {% endif %}
+                </td>
+
+                <td>
+                    <!-- VIEW -->
+                    <a href="{% url 'user-detail' profile.id %}"
+                       class="btn btn-sm btn-primary">
+                        View
+                    </a>
+
+                    <!-- EDIT ROLE -->
+                    <form method="post"
+                          action="{% url 'user-update' profile.id %}"
+                          class="d-inline">
+                        {% csrf_token %}
+                        <select name="role"
+                                class="form-select form-select-sm d-inline w-auto">
+                            <option value="ADMIN" {% if profile.role == 'ADMIN' %}selected{% endif %}>Admin</option>
+                            <option value="STAFF" {% if profile.role == 'STAFF' %}selected{% endif %}>Staff</option>
+                            <option value="PHOTOGRAPHER" {% if profile.role == 'PHOTOGRAPHER' %}selected{% endif %}>Photographer</option>
+                            <option value="FRIEND" {% if profile.role == 'FRIEND' %}selected{% endif %}>Friend</option>
+                        </select>
+                        <button class="btn btn-sm btn-warning">
+                            Update
+                        </button>
+                    </form>
+
+                    <!-- DEACTIVATE -->
+                    <a href="{% url 'user-toggle' profile.id %}"
+                       class="btn btn-sm btn-secondary">
+                        {% if profile.is_approved %}Deactivate{% else %}Activate{% endif %}
+                    </a>
+
+                    <!-- DELETE -->
+                    <form method="post"
+                          action="{% url 'user-delete' profile.id %}"
+                          class="d-inline"
+                          onsubmit="return confirm('Delete this user permanently?');">
+                        {% csrf_token %}
+                        <button class="btn btn-sm btn-danger">
+                            Delete
+                        </button>
+                    </form>
+
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        {% else %}
+            <div class="alert alert-info text-center">
+                No approved users found
+            </div>
+        {% endif %}
+
+    </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,225 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Animated Slideshow</title>-->
+
+<!--    &lt;!&ndash; Bootstrap 5 &ndash;&gt;-->
+<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">-->
+
+<!--    &lt;!&ndash; AOS Animation CSS &ndash;&gt;-->
+<!--    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">-->
+
+<!--    <style>-->
+<!--        body {-->
+<!--            background: #0f172a;-->
+<!--            color: white;-->
+<!--        }-->
+
+<!--        .carousel-item img {-->
+<!--            height: 500px;-->
+<!--            object-fit: cover;-->
+<!--            border-radius: 20px;-->
+<!--        }-->
+
+<!--        .zoom-hover {-->
+<!--            transition: transform 0.5s;-->
+<!--        }-->
+<!--        .zoom-hover:hover {-->
+<!--            transform: scale(1.08);-->
+<!--        }-->
+
+<!--        .glass-card {-->
+<!--            background: rgba(255,255,255,0.1);-->
+<!--            backdrop-filter: blur(10px);-->
+<!--            border-radius: 20px;-->
+<!--            padding: 20px;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+
+<!--<div class="container py-5">-->
+
+<!--    &lt;!&ndash; Heading &ndash;&gt;-->
+<!--    <div class="text-center mb-5" data-aos="fade-down">-->
+<!--        <h1 class="fw-bold">✨ Animated Photo Slideshow</h1>-->
+<!--        <p class="text-muted">Enjoy smooth animations & transitions</p>-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; SLIDESHOW &ndash;&gt;-->
+<!--    <div id="photoCarousel" class="carousel slide mb-5" data-bs-ride="carousel" data-aos="zoom-in">-->
+<!--        <div class="carousel-inner">-->
+
+<!--            {% for photo in photos %}-->
+<!--            <div class="carousel-item {% if forloop.first %}active{% endif %}">-->
+<!--                <img src="{{ photo.image.url }}" class="d-block w-100">-->
+<!--            </div>-->
+<!--            {% endfor %}-->
+
+<!--        </div>-->
+
+<!--        <button class="carousel-control-prev" type="button" data-bs-target="#photoCarousel" data-bs-slide="prev">-->
+<!--            <span class="carousel-control-prev-icon"></span>-->
+<!--        </button>-->
+<!--        <button class="carousel-control-next" type="button" data-bs-target="#photoCarousel" data-bs-slide="next">-->
+<!--            <span class="carousel-control-next-icon"></span>-->
+<!--        </button>-->
+<!--    </div>-->
+
+
+<!--</div>-->
+
+<!--&lt;!&ndash; Bootstrap JS &ndash;&gt;-->
+<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>-->
+
+<!--&lt;!&ndash; AOS JS &ndash;&gt;-->
+<!--<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>-->
+<!--<script>-->
+<!--    AOS.init({-->
+
+<!--    });-->
+<!--</script>-->
+
+<!--</body>-->
+<!--</html>-->
+
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Animated Slideshow</title>
+
+    <!-- Bootstrap 5 -->
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #0f172a;
+            color: white;
+        }
+
+        /* Common Image Style */
+        .carousel-item img {
+            width: 100%; /* Full width of container */
+            height: auto; /* Auto height maintain aspect ratio */
+            object-fit: cover;
+            border-radius: 35px;
+            transition: all 0.4s ease;
+        }
+
+        /* 🔥 Border Themes */
+        .border-glow {
+            box-shadow: 0 0 25px #38bdf8, 0 0 60px #0ea5e9;
+        }
+
+        .border-classic {
+            border: 35px solid #e5e7eb;
+            padding: 10px;
+            background: #fff;
+        }
+
+        .border-gradient {
+            border: 35px solid;
+            border-image: linear-gradient(45deg, #ec4899, #8b5cf6, #22d3ee) 1;
+        }
+
+        .border-glass {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border: 35px solid rgba(255,255,255,0.3);
+        }
+
+        /* Theme Selector Box */
+        .theme-box {
+            background: rgba(255,255,255,0.1);
+            padding: 35px;
+            border-radius: 35px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container py-5">
+
+    <!-- Heading -->
+    <div class="text-center mb-4" data-aos="fade-down">
+        <h1 class="fw-bold">✨ Animated Photo Slideshow</h1>
+        <p class="text-muted">Choose a border theme</p>
+    </div>
+
+    <!-- 🎨 Theme Selector -->
+    <div class="theme-box mb-4 text-center" data-aos="fade-up">
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="theme" checked onclick="setTheme('')">
+            <label class="form-check-label">None</label>
+        </div>
+
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="theme" onclick="setTheme('border-glow')">
+            <label class="form-check-label">Glow</label>
+        </div>
+
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="theme" onclick="setTheme('border-classic')">
+            <label class="form-check-label">Classic</label>
+        </div>
+
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="theme" onclick="setTheme('border-gradient')">
+            <label class="form-check-label">Gradient</label>
+        </div>
+
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="theme" onclick="setTheme('border-glass')">
+            <label class="form-check-label">Glass</label>
+        </div>
+    </div>
+
+    <!-- SLIDESHOW -->
+    <div id="photoCarousel" class="carousel slide mb-5" data-bs-ride="carousel" data-aos="zoom-in">
+        <div class="carousel-inner">
+
+            {% for photo in photos %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <img src="{{ photo.image.url }}" class="d-block w-100 slideshow-img">
+            </div>
+            {% endfor %}
+
+        </div>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#photoCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#photoCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </button>
+    </div>
+
+</div>
+
+<!-- Bootstrap -->
+<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>-->
+
+<!-- AOS -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({ duration: 1200, once: true });
+
+    function setTheme(theme) {
+        document.querySelectorAll('.slideshow-img').forEach(img => {
+            img.className = 'd-block w-100 slideshow-img ' + theme;
+        });
+    }
+</script>
+
+</body>
+</html>
+
+

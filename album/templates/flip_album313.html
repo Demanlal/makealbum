@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+{% load static %}
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+<meta charset="UTF-8">
+<title>{{ album.title }}</title>
+
+<style>
+
+body{
+  margin:0;
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+
+  background:#f5f5f5;
+  font-family:Arial;
+}
+
+/* BOOK */
+
+.book{
+  position:relative;
+  width:700px;
+  height:450px;
+  padding-left:50%;
+  padding-top: 2%;
+  perspective:3000px;
+
+}
+
+/* SHEET */
+.sheet{
+  position:absolute;
+  width:50%;
+  height:100%;
+  transform-style:preserve-3d;
+  transform-origin:center left;   /* book spine */
+  transition:transform 1.2s;
+}
+
+.sheet.flipped{
+  transform:rotateY(-180deg);
+}
+
+/* PAGE */
+
+.page{
+  position:absolute;
+  width:calc(100%);   /* gap control */
+  height:100%;
+  background:white;
+  border:1px solid #ccc;
+  overflow:hidden;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  backface-visibility:hidden;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+}
+
+.front{
+  left:0;
+}
+
+.back{
+  right:0;
+  transform:rotateY(180deg);
+}
+
+.page img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+/* BUTTON */
+
+
+
+button{
+  padding:10px 25px;
+  font-size:18px;
+  margin:10px;
+  cursor:pointer;
+}
+#bgVideo{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+}
+.video-controls{
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: rgba(0,0,0,0.6);
+  padding: 12px 15px;
+  border-radius: 10px;
+  color: #fff;
+  z-index: 10;
+}
+.video-controls label{
+  display: block;
+  cursor: pointer;
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+h2{
+  text-align:center;
+  width:100%;
+  color:white;
+  font-size:300%;
+}
+.controls{
+  display:flex;
+  justify-content:center;
+  gap:20px;
+  padding-top:7%;
+}
+
+audio{
+  display:block;
+  margin:20px auto;
+}
+</style>
+</head>
+
+<body>
+
+
+<h2 class="tc">{{ album.title }}</h2>
+
+<!-- 🎬 BACKGROUND VIDEO PREVIEW -->
+<video id="bgVideo" autoplay muted loop playsinline>
+  <source id="bgSource" src="{% static 'video7.mp4' %}" type="video/mp4">
+</video>
+
+<!-- ✅ FORM START -->
+<form method="POST" enctype="multipart/form-data" action="{% url 'album_video1' album.id %}">
+  {% csrf_token %}
+
+
+  <!-- 🎬 BG UPLOAD -->
+  <div class="video-controls">
+    <label>
+      🎬 Upload Background Video
+      <input type="file" name="bg_upload" accept="video/*">
+    </label>
+  </div>
+
+
+  <!-- 🎵 MUSIC UPLOAD -->
+  <div class="video-controls">
+    <label>
+      🎵 Upload Music
+      <input type="file" name="music_upload" accept="audio/*">
+    </label>
+  </div>
+
+    <div class="book">
+      {% for photo in photos %}
+
+        {% if forloop.counter0|divisibleby:2 %}
+          <div class="sheet">
+
+            <!-- LEFT PAGE -->
+            <div class="page front">
+              <img src="{{ photo.image.url }}">
+            </div>
+
+        {% else %}
+
+            <!-- RIGHT PAGE -->
+            <div class="page back">
+              <img src="{{ photo.image.url }}">
+            </div>
+
+          </div>
+        {% endif %}
+
+      {% endfor %}
+    </div>
+
+  <!-- ⬅➡ CONTROLS -->
+  <div class="controls">
+      <button type="button" onclick="prevPage()">⬅ Prev</button>
+      <button type="button" onclick="nextPage()">Next ➡</button>
+  </div>
+
+  <!-- 🎬 SUBMIT BUTTON -->
+  <div class="mt-3">
+    <button type="submit" class="btn btn-success btn-lg">
+       🎬 Generate & Download Video
+    </button>
+  </div>
+
+</form>
+<!-- ✅ FORM END -->
+
+<!-- 🎵 CURRENT MUSIC PREVIEW -->
+{% if music_url %}
+<audio autoplay controls>
+  <source src="{{ music_url }}?v={{ now|date:'U' }}" type="audio/mpeg">
+</audio>
+{% endif %}
+
+<!-- 🎬 JS PREVIEW -->
+<script>
+function changeVideo(src) {
+  document.getElementById("bgSource").src = src;
+  document.getElementById("bgVideo").load();
+}
+</script>
+
+<script id="2a1q6c">
+const sheets = document.querySelectorAll(".sheet");
+
+let current = 0;
+let direction = "forward";
+
+const INTERVAL_TIME = 4000;
+
+/* initial stack order */
+sheets.forEach((sheet,i)=>{
+  sheet.style.zIndex = sheets.length - i;
+});
+
+/* AUTO SLIDE */
+function autoSlide(){
+
+  if(direction === "forward"){
+
+    if(current < sheets.length){
+
+      let page = sheets[current];
+
+      page.classList.add("flipped");
+
+      setTimeout(()=>{
+        page.style.zIndex = current;
+      },600);
+
+      current++;
+
+    }else{
+      direction = "backward";
+    }
+
+  }
+
+  else{
+
+    if(current > 0){
+
+      current--;
+
+      let page = sheets[current];
+
+      page.classList.remove("flipped");
+
+      setTimeout(()=>{
+        page.style.zIndex = sheets.length - current;
+      },600);
+
+    }else{
+      direction = "forward";
+    }
+
+  }
+
+}
+
+/* timer */
+setInterval(autoSlide, INTERVAL_TIME);
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+
+  const videoInput = document.getElementById("videoUpload");
+  const musicInput = document.getElementById("musicUpload");
+
+  const video = document.getElementById("bgVideo");
+  const audio = document.getElementById("bgMusic");
+
+  /* 🎬 VIDEO UPLOAD */
+  videoInput.addEventListener("change", function(){
+
+    const file = this.files[0];
+    if(!file) return;
+
+    const url = URL.createObjectURL(file);
+
+    video.pause();
+    video.src = url;
+    video.load();
+    video.play();
+  });
+
+  /* 🎵 MUSIC UPLOAD */
+  musicInput.addEventListener("change", function(){
+
+    const file = this.files[0];
+    if(!file) return;
+
+    const url = URL.createObjectURL(file);
+
+    audio.src = url;
+    audio.play();
+  });
+
+});
+</script>
+</body>
+</html>

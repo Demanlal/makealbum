@@ -1,0 +1,49 @@
+## Python
+#__pycache__/
+#*.pyc
+#
+## Django
+#.env
+#media/
+#
+## Database
+#db.sqlite3
+#
+## Virtual Environment
+#venv/
+#env/
+#
+## OS
+#.DS_Store
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Django
+.env
+media/
+staticfiles/
+
+# Database
+db.sqlite3
+
+# Virtual Environment
+venv/
+env/
+
+# Logs
+*.log
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Migrations (optional)
+*/migrations/*
+!*/migrations/__init__.py

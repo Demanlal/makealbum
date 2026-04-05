@@ -1,0 +1,77 @@
+
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-5">
+
+    <!-- Page Heading -->
+    <div class="text-center mb-4">
+        <h2 class="fw-bold">📸 Create Your Photo Album</h2>
+        <p class="text-muted">Organize your memories beautifully</p>
+        <!-- GIF -->
+        <img src="https://media.giphy.com/media/3o7aD2saalBwwftBIY/giphy.gif"
+             class="img-fluid mb-3" style="max-width:220px;">
+    </div>
+
+    <!-- Create Album Card -->
+    <div class="row justify-content-center mb-5">
+        <div class="col-md-6">
+            <div class="card shadow-lg">
+                <div class="card-header text-center fw-semibold">
+                    ➕ New Album
+                </div>
+                <div class="card-body">
+                    <form method="post" action="{% url 'create-album' %}">
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            <label class="form-label">Album Title</label>
+                            <input type="text" name="title" class="form-control" placeholder="Enter album name" required>
+                        </div>
+
+                        <div class="d-grid">
+                            <button class="btn btn-success btn-lg">
+                                Create Album
+                            </button>
+                            <a href="{% url 'register' %}" class="btn btn-primary mt-2 btn-lg">
+                               Register Account
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Albums List -->
+    <div class="text-center mb-4">
+        <h3 class="fw-bold">📂 Your Albums</h3>
+        <img src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif"
+             class="img-fluid" style="max-width:180px;">
+    </div>
+
+    <div class="row">
+        {% for album in albums %}
+        <div class="col-md-4 col-lg-3 mb-4">
+            <div class="card album-card shadow-sm h-100 text-center">
+                <div class="card-body">
+                    <img src="https://media.giphy.com/media/26ufdipQqU2lhNA4g/giphy.gif"
+                         class="img-fluid mb-2" style="max-width:100px;">
+
+                    <h5 class="card-title">{{ album.title }}</h5>
+
+                    <a href="{% url 'album-detail' album.id %}" class="btn btn-primary btn-sm mt-2">
+                        📂 Open Album
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="text-center text-muted">
+            No albums created yet 😢
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock %}
+

@@ -1,0 +1,52 @@
+{% load static %}
+<html>
+<head>
+    <title>Django Flipbook</title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    <style>
+        body { background-color: #333; display: flex; justify-content: center; padding-top: 50px; }
+        #flipbook { width: 800px; height: 500px; }
+        .page { width: 400px; height: 500px; background-color: white; line-height: 1.6; padding: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.5); }
+        .hard { background-color: #ccc !important; font-weight: bold; text-align: center; }
+    </style>
+</head>
+<body>
+
+    <div id="flipbook">
+        <!-- Front Cover -->
+        <div class="hard"><h1>My Django Book</h1></div>
+        <div class="hard"></div>
+
+        <!-- Dynamic Pages from Database -->
+        {% for page in pages %}
+            <div class="page">
+                <h3>{{ page.title }}</h3>
+                <p>{{ page.content|safe }}</p>
+                <small>Page {{ page.page_number }}</small>
+            </div>
+        {% endfor %}
+
+        <!-- Back Cover -->
+        <div class="hard"></div>
+        <div class="hard"><h1>The End</h1></div>
+    </div>
+
+    <!-- Required Scripts -->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/turn.js' %}"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#flipbook").turn({
+                width: 800,
+                height: 500,
+                autoCenter: true,
+                acceleration: true,
+                gradients: true
+            });
+        });
+    </script>
+</body>
+</html>

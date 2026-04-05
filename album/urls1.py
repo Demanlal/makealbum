@@ -1,0 +1,92 @@
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('album/list', views.album_list, name='album-list'),
+    #path('album/create/', views.create_album, name='create-album'),
+    path('album/create/', views.request_album, name='create-album'),
+    # path('album/<uuid:pk>/', views.album_detail, name='album-detail'),
+    path('album/<uuid:album_id>/', views.album_detail, name='album-detail'),
+    path('album/<uuid:album_id>/edit/', views.edit_album, name='album-edit'),
+    path('photo/<int:photo_id>/delete/', views.delete_photo, name='delete-photo'),
+    #path('photo/upload/', views.upload_photo, name='upload-photo'),
+    path('album-approval/', views.approve_albums, name='approve-albums'),
+    path(
+        'album/<uuid:album_id>/',
+        views.album_detail,
+        name='album-detail'
+    ),
+    path(
+        'album/<uuid:album_id>/upload/',
+        views.upload_photo,
+        name='upload-photo'
+    ),
+    path('users/approved/', views.approved_users, name='approved-users'),
+    path('', views.user_login, name='login'),
+    path('user-approval/', views.approve_users, name='user-approval'),
+    path('photo/download/<int:photo_id>/', views.download_photo, name='download-photo'),
+    path('album/<uuid:album_id>/download/', views.download_album, name='download-album'),
+
+    path('photos/download-selected/', views.download_selected_photos, name='download-selected'),
+    path('album/request/success/',views.album_request_success,name='album-request-success'),
+
+
+
+    path('users/<int:pk>/', views.user_detail, name='user-detail'),
+    path('users/<int:pk>/update/', views.user_update, name='user-update'),
+    path('users/<int:pk>/toggle/', views.user_toggle, name='user-toggle'),
+    path('users/<int:pk>/delete/', views.user_delete, name='user-delete'),
+
+    #path("album/<uuid:album_id>/video/", views.generate_video, name="generate_video"),
+
+    #path("album/<uuid:album_id>/flip/", views.flip_album, name="flip_album"),
+    # path('slideshow/', views.animated_slideshow, name='animated-slideshow'),
+    # path('slideshow/<int:album_id>/', views.animated_slideshow, name='slideshow')
+    path('slideshow/<uuid:album_id>/', views.animated_slideshow, name='slideshow'),
+    # path("ai_slideshow/<uuid:album_id>/", views.ai_slideshow, name="slideshow"),
+    # path('album/<uuid:album_id>/slideshow/', views.animated_slideshow, name='animated-slideshow'),
+
+    path(
+        "album/<uuid:album_id>/flip/",
+        views.album_view,
+        name="flip_album"
+    ),
+    #
+    # path(
+    #     "album/<uuid:album_id>/flip/",
+    #     views.album_view1,
+    #     name="flip_album1"
+    # ),
+    # path(
+    #     "album/<uuid:album_id>/flip1/",
+    #     views.flip_album1,
+    #     name="flip_album1"
+    # ),
+    # path(
+    #     "album/<uuid:album_id>/flip2/",
+    #     views.flip_album2,
+    #     name="flip_album2"
+    # ),
+    #path("album/<uuid:album_id>/slideshow/", views.album_slideshow_view, name="album_slideshow"),
+
+
+    path(
+     'album/<uuid:album_id>/generate-video/',
+     views.generate_album_video,
+     name='generate_album_video'
+    ),
+
+    path("album/<uuid:album_id>/", views.album_view, name="album"),
+    path("album/<uuid:album_id>/download/", views.generate_album_video, name="album_video"),
+    path("album/<uuid:album_id>/video/", views.generate_ultra_cinematic, name="album_video1"),
+
+    # path(
+    #     'album/<uuid:album_id>/',
+    #     views.album_flipbook,
+    #     name='album_flipbook'
+    # ),
+
+]
+
+
+

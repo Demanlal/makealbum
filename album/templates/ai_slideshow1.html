@@ -1,0 +1,457 @@
+<!--<script>-->
+<!--const slides = document.querySelectorAll(".slide");-->
+
+<!--let slideIndex = 0;-->
+<!--let transitionIndex = 0;-->
+
+<!--/* 🎯 TRANSITIONS IN SEQUENCE */-->
+<!--const transitions = [-->
+<!--  "fade","push","wipe","split","reveal","cut","random bars","shape",-->
+<!-- "cover","uncover","flash","fall over","drape","curtains","wind","ripple","honeycomb",-->
+<!--  "cube","zoom","flip", "pan","rotate","fly","prestige","fracture","crush","pheel off",-->
+<!--  "page curl","airplane","Origami",Dissolve, checkerboard,blinds,clock,ripple,"glitter,vertex,shred,-->
+<!--  switch,gallery,doors,box,comb,random,rerris wheel,conveyor,rotate,window,orbit,fly through-->
+<!--];-->
+
+<!--function showSlide(){-->
+
+<!--    const current = slides[slideIndex];-->
+
+<!--    /* next slide index */-->
+<!--    slideIndex = (slideIndex + 1) % slides.length;-->
+<!--    const next = slides[slideIndex];-->
+
+<!--    /* clear all states */-->
+<!--    slides.forEach(slide => {-->
+<!--        slide.className = "slide";-->
+<!--        slide.style.zIndex = 0;-->
+<!--    });-->
+
+<!--    /* exit animation */-->
+<!--    current.classList.add("prev");-->
+
+<!--    /* 🔥 force reflow */-->
+<!--    void current.offsetWidth;-->
+
+<!--    /* pick transition sequentially */-->
+<!--    const effect = transitions[transitionIndex];-->
+<!--    transitionIndex = (transitionIndex + 1) % transitions.length;-->
+
+<!--    /* apply transition */-->
+<!--    next.classList.add(effect);-->
+<!--    next.classList.add("active");-->
+<!--    next.style.zIndex = 2;-->
+<!--}-->
+
+<!--/* first slide visible */-->
+<!--slides[0].classList.add("active");-->
+
+<!--/* start slideshow */-->
+<!--setInterval(showSlide, 3500);-->
+<!--</script>-->
+
+
+<!DOCTYPE html>
+{% load static %}
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+<title>PPT Style AI Transitions</title>
+<style>
+
+body {
+  margin: 0;
+  background: #000;
+  overflow: hidden;
+  height: 100vh;
+
+  /* Flexbox settings */
+  display: flex;
+  flex-direction: column; /* Sab kuch ek ke niche ek lane ke liye */
+  justify-content: center; /* Vertical centering */
+  align-items: center;    /* Horizontal centering */
+  gap: 20px;              /* Elements ke beech thoda gap dene ke liye */
+}
+
+.video-controls {
+  margin-bottom: 10px;    /* Optional: Slider se thodi doori */
+  color: white;           /* Taaki text nazar aaye */
+}
+
+.slider {
+  position: relative;
+  width: 600px;
+  height: 420px;
+  perspective: 1200px;
+  transform-style: preserve-3d;
+}
+
+audio {
+  margin-top: 10px;       /* Optional: Slider ke niche spacing */
+}
+
+/* 🎬 FULL SCREEN VIDEO BACKGROUND */
+#bgVideo{
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: -2;
+    }
+
+.slide{
+    position:absolute;
+    inset:0;
+    opacity:0;
+    z-index:0;
+
+    backface-visibility:hidden;
+    transform-origin:center center;
+
+    transition:
+        transform 1.2s ease,
+        opacity 1.2s ease,
+        filter 1.2s ease,
+        clip-path 1.2s ease;
+}
+
+
+.slide img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+}
+
+.slide.active{
+    opacity:1;
+    z-index:2;
+}
+.nav{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    background:rgba(0,0,0,0.5);
+    color:white;
+    border:none;
+    font-size:30px;
+    padding:10px 15px;
+    cursor:pointer;
+    z-index:5;
+}
+
+.prev{ left:20px; }
+.next{ right:20px; }
+
+.nav:hover{
+    background:rgba(255,255,255,0.3);
+}
+
+/* ================= ENTER TRANSITIONS ================= */
+
+/* Fade */
+.fade{opacity:0}
+.fade.active{opacity:1}
+
+/* Push (right → center) */
+.push{transform:translateX(100%)}
+.push.active{transform:translateX(0)}
+
+/* Wipe */
+.wipe{clip-path:inset(0 100% 0 0)}
+.wipe.active{clip-path:inset(0 0 0 0)}
+
+/* Split */
+.split{transform:scaleX(0)}
+.split.active{transform:scaleX(1)}
+
+/* Reveal (bottom → center) */
+.reveal{transform:translateY(100%)}
+.reveal.active{transform:translateY(0)}
+
+/* Bars */
+.bars{clip-path:inset(0 0 100% 0)}
+.bars.active{clip-path:inset(0 0 0 0)}
+
+/* Shape (circle) */
+.shape{clip-path:circle(0% at 50% 50%)}
+.shape.active{clip-path:circle(75% at 50% 50%)}
+
+/* Cover */
+.cover{transform:translateX(-100%)}
+.cover.active{transform:translateX(0)}
+
+/* Uncover */
+.uncover{transform:translateX(100%)}
+.uncover.active{transform:translateX(0)}
+
+/* Flash */
+.flash{opacity:0;filter:brightness(3)}
+.flash.active{opacity:1;filter:brightness(1)}
+
+/* Curtains */
+.curtains{clip-path:inset(0 50% 0 50%)}
+.curtains.active{clip-path:inset(0 0 0 0)}
+
+/* Ripple */
+.ripple{filter:blur(25px)}
+.ripple.active{filter:blur(0)}
+
+/* Honeycomb (fake) */
+.honeycomb{transform:scale(0.2)}
+.honeycomb.active{transform:scale(1)}
+
+/* Cube */
+.cube{transform:rotateY(90deg)}
+.cube.active{transform:rotateY(0)}
+
+/* Zoom */
+.zoom{transform:scale(0.2)}
+.zoom.active{transform:scale(1)}
+
+/* Flip */
+.flip{transform:rotateX(90deg)}
+.flip.active{transform:rotateX(0)}
+
+/* Pan */
+.pan{transform:translate(-25%, -25%)}
+.pan.active{transform:translate(0,0)}
+
+/* Rotate */
+.rotate{transform:rotate(180deg)}
+.rotate.active{transform:rotate(0)}
+
+/* Fly */
+.fly{transform:scale(2.5);opacity:0}
+.fly.active{transform:scale(1);opacity:1}
+
+/* CUT (instant change) */
+.cut{
+  opacity:0;
+  transition:opacity .2s linear;
+}
+.cut.active{
+  opacity:1;
+}
+
+/* RANDOM BARS (simple top reveal) */
+.random-bars{
+  clip-path: inset(100% 0 0 0);
+}
+.random-bars.active{
+  clip-path: inset(0 0 0 0);
+}
+
+/* FALL OVER (small rotate) */
+.fall-over{
+  transform: rotate(-15deg);
+  opacity:0;
+}
+.fall-over.active{
+  transform: rotate(0);
+  opacity:1;
+}
+
+/* DRAPE (top drop) */
+.drape{
+  transform: translateY(-100%);
+}
+.drape.active{
+  transform: translateY(0);
+}
+
+/* CRUSH (scale compress) */
+.crush{
+  transform: scaleX(0);
+}
+.crush.active{
+  transform: scaleX(1);
+}
+
+/* PEEL OFF (corner tilt) */
+.peel-off{
+  transform: rotate(-8deg) scale(.8);
+  opacity:0;
+}
+.peel-off.active{
+  transform: rotate(0) scale(1);
+  opacity:1;
+}
+
+/* DISSOLVE (simple fade blur) */
+.dissolve{
+  opacity:0;
+  filter: blur(10px);
+}
+.dissolve.active{
+  opacity:1;
+  filter: blur(0);
+}
+
+/* CHECKERBOARD (fake zoom pop) */
+.checkerboard{
+  transform: scale(1.3);
+  opacity:0;
+}
+.checkerboard.active{
+  transform: scale(1);
+  opacity:1;
+}
+
+/* BLINDS (vertical open) */
+.blinds{
+  clip-path: inset(0 50% 0 50%);
+}
+.blinds.active{
+  clip-path: inset(0 0 0 0);
+}
+
+/* DOORS (center open) */
+.doors{
+  transform: scaleX(0);
+}
+.doors.active{
+  transform: scaleX(1);
+}
+
+</style>
+</head>
+
+<body>
+<video id="bgVideo" autoplay muted loop playsinline>
+  <source id="bgSource"
+    src="{% static 'video1.mp4' %}"
+    type="video/mp4">
+</video>
+
+
+<div class="video-controls">
+  <label>
+    <input type="radio" name="bgvideo" checked
+           onchange="changeVideo('{% static 'video1.mp4' %}')">
+    Waterfall
+  </label>
+
+  <label>
+    <input type="radio" name="bgvideo"
+           onchange="changeVideo('{% static 'video2.mp4' %}')">
+    Forest
+  </label>
+
+  <label>
+    <input type="radio" name="bgvideo"
+           onchange="changeVideo('{% static 'video3.mp4' %}')">
+    Wedding
+  </label>
+</div>
+<div class="slider">
+    {% for img in photos %}
+    <div class="slide {% if forloop.first %}active{% endif %}">
+        <img src="{{ img.image.url }}">
+    </div>
+    {% endfor %}
+
+    <button class="nav prev" onclick="prevSlide()">❮</button>
+    <button class="nav next" onclick="nextSlide()">❯</button>
+</div>
+
+{% if music_url %}
+<audio autoplay controls>
+  <source src="{{ music_url }}?v={{ now|date:'U' }}" type="audio/mpeg">
+</audio>
+
+{% endif %}
+
+
+<script>
+function changeVideo(src){
+  const video = document.getElementById("bgVideo");
+  const source = document.getElementById("bgSource");
+
+  video.pause();
+  source.src = src;
+  video.load();
+  video.play();
+}
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+
+const slides = document.querySelectorAll(".slide");
+
+if(slides.length === 0){
+    console.log("No slides found");
+    return;
+}
+
+let slideIndex = 0;
+let transitionIndex = 0;
+let autoTimer;
+
+/* TRANSITIONS */
+const transitions = [
+  "fade","push","wipe","split","reveal","bars","shape",
+  "cover","uncover","flash","curtains","ripple",
+  "honeycomb","cube","zoom","flip","pan","rotate","fly",
+  "cut","random-bars","fall-over","drape","crush",
+  "peel-off","dissolve","checkerboard","blinds","doors"
+];
+
+/* SHOW SLIDE */
+function showSlide(newIndex){
+
+    slideIndex = newIndex;
+
+    if(slideIndex >= slides.length) slideIndex = 0;
+    if(slideIndex < 0) slideIndex = slides.length - 1;
+
+    const next = slides[slideIndex];
+
+    slides.forEach(slide=>{
+        slide.className = "slide";
+        slide.style.zIndex = 0;
+    });
+
+    const effect = transitions[transitionIndex];
+    transitionIndex = (transitionIndex + 1) % transitions.length;
+
+    next.classList.add(effect);
+    next.classList.add("active");
+    next.style.zIndex = 2;
+}
+
+/* BUTTONS */
+window.nextSlide = function(){
+    showSlide(slideIndex + 1);
+    resetAuto();
+}
+
+window.prevSlide = function(){
+    showSlide(slideIndex - 1);
+    resetAuto();
+}
+
+/* AUTO */
+function startAuto(){
+    autoTimer = setInterval(()=>{
+        showSlide(slideIndex + 1);
+    },4000);
+}
+
+function resetAuto(){
+    clearInterval(autoTimer);
+    startAuto();
+}
+
+/* INIT */
+slides[0].classList.add("active");
+startAuto();
+
+});
+</script>
+
+
+
+
+</body>
+</html>

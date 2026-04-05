@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="card shadow-lg">
+    <div class="card-header bg-dark text-white">
+        <h4>👥 User Approval Panel</h4>
+    </div>
+
+    <div class="card-body">
+
+        {% if users %}
+        <table class="table table-bordered table-hover align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Current Role</th>
+                    <th width="40%">Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+            {% for profile in users %}
+            <tr>
+                <td>{{ profile.user.username }}</td>
+                <td>{{ profile.user.email }}</td>
+
+                <td>
+                    <span class="badge bg-warning text-dark">
+                        {{ profile.role }}
+                    </span>
+                </td>
+
+                <td>
+                    <form method="post" class="d-flex gap-2">
+                        {% csrf_token %}
+                        <input type="hidden" name="profile_id" value="{{ profile.id }}">
+
+                        <select name="role" class="form-select form-select-sm" required>
+                            <option value="">Select Role</option>
+                            <option value="ADMIN">Admin</option>
+                            <option value="STAFF">Staff</option>
+                            <option value="PHOTOGRAPHER">Photographer</option>
+                            <option value="FRIEND">Friend</option>
+                        </select>
+
+                        <button class="btn btn-sm btn-success">
+                            Approve
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        {% else %}
+            <div class="alert alert-info text-center">
+                No pending users
+            </div>
+        {% endif %}
+
+    </div>
+</div>
+{% endblock %}

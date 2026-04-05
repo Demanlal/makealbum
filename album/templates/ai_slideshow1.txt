@@ -1,0 +1,570 @@
+<!--<!DOCTYPE html>-->
+<!--<html>-->
+<!--<head>-->
+<!--<title>PPT Style AI Transitions</title>-->
+
+<!--<style>-->
+<!--body{-->
+<!--    margin:0;-->
+<!--    background:#000;-->
+<!--    overflow:hidden;-->
+<!--}-->
+
+<!--.slider{-->
+<!--    width:100vw;-->
+<!--    height:100vh;-->
+<!--    position:relative;-->
+<!--}-->
+
+<!--.slide{-->
+<!--    position:absolute;-->
+<!--    width:100%;-->
+<!--    height:100%;-->
+<!--    opacity:0;-->
+<!--    transform:scale(1);-->
+<!--    transition:all 1s ease;-->
+<!--}-->
+
+<!--.slide img{-->
+<!--    width:100%;-->
+<!--    height:100%;-->
+<!--    object-fit:contain;-->
+<!--}-->
+
+<!--/* ===== BASIC ===== */-->
+<!--.active{opacity:1;}-->
+
+<!--/* Fade */-->
+<!--.fade{opacity:0;}-->
+<!--.fade.active{opacity:1;}-->
+
+<!--/* Push */-->
+<!--.push{transform:translateX(100%);}-->
+<!--.push.active{transform:translateX(0);}-->
+
+<!--/* Wipe */-->
+<!--.wipe{clip-path:inset(0 100% 0 0);}-->
+<!--.wipe.active{clip-path:inset(0 0 0 0);}-->
+
+<!--/* Split */-->
+<!--.split{transform:scaleX(0);}-->
+<!--.split.active{transform:scaleX(1);}-->
+
+<!--/* Reveal */-->
+<!--.reveal{transform:translateY(100%);}-->
+<!--.reveal.active{transform:translateY(0);}-->
+
+<!--/* Random Bars */-->
+<!--.bars{clip-path:inset(0 0 100% 0);}-->
+<!--.bars.active{clip-path:inset(0 0 0 0);}-->
+
+<!--/* Shape */-->
+<!--.shape{clip-path:circle(0%);}-->
+<!--.shape.active{clip-path:circle(75%);}-->
+
+<!--/* Cover */-->
+<!--.cover{transform:translateX(-100%);}-->
+<!--.cover.active{transform:translateX(0);}-->
+
+<!--/* Uncover */-->
+<!--.uncover{transform:translateX(100%);}-->
+<!--.uncover.active{transform:translateX(0);}-->
+
+<!--/* Flash */-->
+<!--.flash{opacity:0;}-->
+<!--.flash.active{opacity:1;filter:brightness(2);}-->
+
+<!--/* Curtains */-->
+<!--.curtains{clip-path:inset(0 50% 0 50%);}-->
+<!--.curtains.active{clip-path:inset(0 0 0 0);}-->
+
+<!--/* Ripple */-->
+<!--.ripple{filter:blur(20px);}-->
+<!--.ripple.active{filter:blur(0);}-->
+
+<!--/* Honeycomb (fake but cool) */-->
+<!--.honeycomb{transform:scale(0);}-->
+<!--.honeycomb.active{transform:scale(1);}-->
+
+<!--/* Cube */-->
+<!--.cube{transform:rotateY(90deg);}-->
+<!--.cube.active{transform:rotateY(0);}-->
+
+<!--/* Zoom */-->
+<!--.zoom{transform:scale(0.3);}-->
+<!--.zoom.active{transform:scale(1);}-->
+
+<!--/* Flip */-->
+<!--.flip{transform:rotateX(90deg);}-->
+<!--.flip.active{transform:rotateX(0);}-->
+
+<!--/* Pan */-->
+<!--.pan{transform:translate(-20%, -20%);}-->
+<!--.pan.active{transform:translate(0,0);}-->
+
+<!--/* Rotate */-->
+<!--.rotate{transform:rotate(180deg);}-->
+<!--.rotate.active{transform:rotate(0);}-->
+
+<!--/* Fly Through */-->
+<!--.fly{transform:scale(3);opacity:0;}-->
+<!--.fly.active{transform:scale(1);opacity:1;}-->
+<!--</style>-->
+<!--</head>-->
+
+<!--<body>-->
+
+<!--<div class="slider">-->
+<!--    {% for img in Photos %}-->
+<!--    <div class="slide {% if forloop.first %}active{% endif %}">-->
+<!--        <img src="{{ img }}">-->
+<!--    </div>-->
+<!--    {% endfor %}-->
+<!--</div>-->
+
+<!--<script>-->
+<!--let slides = document.querySelectorAll(".slide");-->
+<!--let index = 0;-->
+
+<!--/* 🎯 ALL PPT STYLE TRANSITIONS */-->
+<!--let transitions = [-->
+<!-- "fade","push","wipe","split","reveal","bars","shape",-->
+<!-- "cover","uncover","flash","curtains","ripple","honeycomb",-->
+<!-- "cube","zoom","flip","pan","rotate","fly"-->
+<!--];-->
+
+<!--/* 🤖 AI Transition Selector */-->
+<!--function aiTransition(imageIndex){-->
+<!--    // Smart logic (customizable)-->
+<!--    if(imageIndex % 5 === 0) return "zoom";-->
+<!--    if(imageIndex % 3 === 0) return "flip";-->
+<!--    if(imageIndex === slides.length-1) return "fly";-->
+<!--    return transitions[Math.floor(Math.random()*transitions.length)];-->
+<!--}-->
+
+<!--function nextSlide(){-->
+<!--    slides[index].className = "slide";-->
+<!--    index = (index+1) % slides.length;-->
+
+<!--    let effect = aiTransition(index);-->
+<!--    slides[index].className = "slide active " + effect;-->
+<!--}-->
+
+<!--setInterval(nextSlide, 3500);-->
+<!--</script>-->
+
+<!--</body>-->
+<!--</html>-->
+
+
+
+<!--<style>-->
+<!--body{-->
+<!--    margin:0;-->
+<!--    background:#000;-->
+<!--    overflow:hidden;-->
+<!--}-->
+
+<!--.slider{-->
+<!--    width:100vw;-->
+<!--    height:100vh;-->
+<!--    position:relative;-->
+<!--}-->
+
+<!--.slide{-->
+<!--    position:absolute;-->
+<!--    width:100%;-->
+<!--    height:100%;-->
+<!--    opacity:0;-->
+<!--    transition:all 1s ease;-->
+<!--}-->
+
+<!--.slide img{-->
+<!--    width:100%;-->
+<!--    height:100%;-->
+<!--    object-fit:contain;-->
+<!--}-->
+
+<!--.active{opacity:1}-->
+
+<!--/* PowerPoint-style transitions */-->
+<!--.fade{opacity:0}-->
+<!--.fade.active{opacity:1}-->
+
+<!--.push{transform:translateX(100%)}-->
+<!--.push.active{transform:translateX(0)}-->
+
+<!--.wipe{clip-path:inset(0 100% 0 0)}-->
+<!--.wipe.active{clip-path:inset(0 0 0 0)}-->
+
+<!--.split{transform:scaleX(0)}-->
+<!--.split.active{transform:scaleX(1)}-->
+
+<!--.reveal{transform:translateY(100%)}-->
+<!--.reveal.active{transform:translateY(0)}-->
+
+<!--.bars{clip-path:inset(0 0 100% 0)}-->
+<!--.bars.active{clip-path:inset(0 0 0 0)}-->
+
+<!--.shape{clip-path:circle(0%)}-->
+<!--.shape.active{clip-path:circle(75%)}-->
+
+<!--.cover{transform:translateX(-100%)}-->
+<!--.cover.active{transform:translateX(0)}-->
+
+<!--.uncover{transform:translateX(100%)}-->
+<!--.uncover.active{transform:translateX(0)}-->
+
+<!--.flash{opacity:0}-->
+<!--.flash.active{opacity:1;filter:brightness(2)}-->
+
+<!--.curtains{clip-path:inset(0 50% 0 50%)}-->
+<!--.curtains.active{clip-path:inset(0 0 0 0)}-->
+
+<!--.ripple{filter:blur(20px)}-->
+<!--.ripple.active{filter:blur(0)}-->
+
+<!--.honeycomb{transform:scale(0)}-->
+<!--.honeycomb.active{transform:scale(1)}-->
+
+<!--.cube{transform:rotateY(90deg)}-->
+<!--.cube.active{transform:rotateY(0)}-->
+
+<!--.zoom{transform:scale(0.3)}-->
+<!--.zoom.active{transform:scale(1)}-->
+
+<!--.flip{transform:rotateX(90deg)}-->
+<!--.flip.active{transform:rotateX(0)}-->
+
+<!--.pan{transform:translate(-20%, -20%)}-->
+<!--.pan.active{transform:translate(0,0)}-->
+
+<!--.rotate{transform:rotate(180deg)}-->
+<!--.rotate.active{transform:rotate(0)}-->
+
+<!--.fly{transform:scale(3);opacity:0}-->
+<!--.fly.active{transform:scale(1);opacity:1}-->
+<!--</style>-->
+<!--</script>-->
+<!-- "fade","push","wipe","split","reveal","bars","shape",
+ "cover","uncover","flash","curtains",-->
+<!--<script>-->
+<!--let slides = document.querySelectorAll(".slide");-->
+<!--let slideIndex = 0;-->
+<!--let prevIndex = 0;-->
+
+<!--/* 🎯 ALL TRANSITIONS IN ORDER */-->
+<!--let transitions = [-->
+<!-- "ripple","honeycomb",-->
+<!-- "cube","zoom","flip","pan","rotate","fly"-->
+<!--];-->
+
+<!--let transitionIndex = 0;-->
+
+<!--function nextSlide(){-->
+
+<!--    /* hide previous slide */-->
+<!--    slides[prevIndex].className = "slide";-->
+
+<!--    /* move slide index */-->
+<!--    slideIndex = (slideIndex + 1) % slides.length;-->
+
+<!--    /* pick transition in sequence */-->
+<!--    let effect = transitions[transitionIndex];-->
+
+<!--    /* move transition pointer */-->
+<!--    transitionIndex = (transitionIndex + 1) % transitions.length;-->
+
+<!--    /* reset slide */-->
+<!--    slides[slideIndex].className = "slide";-->
+<!--    slides[slideIndex].style.zIndex = 2;-->
+
+<!--    /* force browser reflow */-->
+<!--    void slides[slideIndex].offsetWidth;-->
+
+<!--    /* apply transition */-->
+<!--    slides[slideIndex].classList.add(effect);-->
+<!--    slides[slideIndex].classList.add("active");-->
+
+<!--    prevIndex = slideIndex;-->
+<!--}-->
+
+<!--/* start slideshow */-->
+<!--setInterval(nextSlide, 3500);-->
+<!--</script>-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+<title>PPT Style AI Transitions</title>
+<style>
+body{
+    margin:0;
+    background:#000;
+    overflow:hidden;
+}
+
+.slider{
+    width:100vw;
+    height:100vh;
+    position:relative;
+}
+
+.slide{
+    position:absolute;
+    inset:0;
+    opacity:0;
+    z-index:0;
+    transition:
+        transform 1.2s ease,
+        opacity 1.2s ease,
+        filter 1.2s ease,
+        clip-path 1.2s ease;
+}
+
+.slide img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+}
+
+.slide.active{
+    opacity:1;
+    z-index:2;
+}
+.nav{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    background:rgba(0,0,0,0.5);
+    color:white;
+    border:none;
+    font-size:30px;
+    padding:10px 15px;
+    cursor:pointer;
+    z-index:5;
+}
+
+.prev{ left:20px; }
+.next{ right:20px; }
+
+.nav:hover{
+    background:rgba(255,255,255,0.3);
+}
+
+/* ================= ENTER TRANSITIONS ================= */
+
+/* Fade */
+.fade{opacity:0}
+.fade.active{opacity:1}
+
+/* Push (right → center) */
+.push{transform:translateX(100%)}
+.push.active{transform:translateX(0)}
+
+/* Wipe */
+.wipe{clip-path:inset(0 100% 0 0)}
+.wipe.active{clip-path:inset(0 0 0 0)}
+
+/* Split */
+.split{transform:scaleX(0)}
+.split.active{transform:scaleX(1)}
+
+/* Reveal (bottom → center) */
+.reveal{transform:translateY(100%)}
+.reveal.active{transform:translateY(0)}
+
+/* Bars */
+.bars{clip-path:inset(0 0 100% 0)}
+.bars.active{clip-path:inset(0 0 0 0)}
+
+/* Shape (circle) */
+.shape{clip-path:circle(0% at 50% 50%)}
+.shape.active{clip-path:circle(75% at 50% 50%)}
+
+/* Cover */
+.cover{transform:translateX(-100%)}
+.cover.active{transform:translateX(0)}
+
+/* Uncover */
+.uncover{transform:translateX(100%)}
+.uncover.active{transform:translateX(0)}
+
+/* Flash */
+.flash{opacity:0;filter:brightness(3)}
+.flash.active{opacity:1;filter:brightness(1)}
+
+/* Curtains */
+.curtains{clip-path:inset(0 50% 0 50%)}
+.curtains.active{clip-path:inset(0 0 0 0)}
+
+/* Ripple */
+.ripple{filter:blur(25px)}
+.ripple.active{filter:blur(0)}
+
+/* Honeycomb (fake) */
+.honeycomb{transform:scale(0.2)}
+.honeycomb.active{transform:scale(1)}
+
+/* Cube */
+.cube{transform:rotateY(90deg)}
+.cube.active{transform:rotateY(0)}
+
+/* Zoom */
+.zoom{transform:scale(0.2)}
+.zoom.active{transform:scale(1)}
+
+/* Flip */
+.flip{transform:rotateX(90deg)}
+.flip.active{transform:rotateX(0)}
+
+/* Pan */
+.pan{transform:translate(-25%, -25%)}
+.pan.active{transform:translate(0,0)}
+
+/* Rotate */
+.rotate{transform:rotate(180deg)}
+.rotate.active{transform:rotate(0)}
+
+/* Fly */
+.fly{transform:scale(2.5);opacity:0}
+.fly.active{transform:scale(1);opacity:1}
+</style>
+</head>
+
+<body>
+
+{% if photos %}
+<div class="slider">
+    {% for img in photos %}
+    <div class="slide {% if forloop.first %}active{% endif %}">
+        <img src="{{ img.image.url }}">
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<h2 style="color:white;text-align:center;">No photos available</h2>
+{% endif %}
+<button class="nav prev" onclick="prevSlide()">❮</button>
+<button class="nav next" onclick="nextSlide()">❯</button>
+
+<!--<script>-->
+<!--const slides = document.querySelectorAll(".slide");-->
+
+<!--let slideIndex = 0;-->
+<!--let transitionIndex = 0;-->
+
+<!--/* 🎯 TRANSITIONS IN SEQUENCE */-->
+<!--const transitions = [-->
+<!--  "fade","push","wipe","split","reveal","cut","random bars","shape",-->
+<!-- "cover","uncover","flash","fall over","drape","curtains","wind","ripple","honeycomb",-->
+<!--  "cube","zoom","flip", "pan","rotate","fly","prestige","fracture","crush","pheel off",-->
+<!--  "page curl","airplane","Origami",Dissolve, checkerboard,blinds,clock,ripple,"glitter,vertex,shred,-->
+<!--  switch,gallery,doors,box,comb,random,rerris wheel,conveyor,rotate,window,orbit,fly through-->
+<!--];-->
+
+<!--function showSlide(){-->
+
+<!--    const current = slides[slideIndex];-->
+
+<!--    /* next slide index */-->
+<!--    slideIndex = (slideIndex + 1) % slides.length;-->
+<!--    const next = slides[slideIndex];-->
+
+<!--    /* clear all states */-->
+<!--    slides.forEach(slide => {-->
+<!--        slide.className = "slide";-->
+<!--        slide.style.zIndex = 0;-->
+<!--    });-->
+
+<!--    /* exit animation */-->
+<!--    current.classList.add("prev");-->
+
+<!--    /* 🔥 force reflow */-->
+<!--    void current.offsetWidth;-->
+
+<!--    /* pick transition sequentially */-->
+<!--    const effect = transitions[transitionIndex];-->
+<!--    transitionIndex = (transitionIndex + 1) % transitions.length;-->
+
+<!--    /* apply transition */-->
+<!--    next.classList.add(effect);-->
+<!--    next.classList.add("active");-->
+<!--    next.style.zIndex = 2;-->
+<!--}-->
+
+<!--/* first slide visible */-->
+<!--slides[0].classList.add("active");-->
+
+<!--/* start slideshow */-->
+<!--setInterval(showSlide, 3500);-->
+<!--</script>-->
+<script>
+const slides = document.querySelectorAll(".slide");
+
+let slideIndex = 0;
+let transitionIndex = 0;
+let autoTimer;
+
+/* VALID TRANSITIONS */
+const transitions = [
+  "fade","push","wipe","split","reveal","bars","shape",
+  "cover","uncover","flash","curtains","ripple",
+  "honeycomb","cube","zoom","flip","pan","rotate","fly"
+];
+
+/* ===== MAIN SHOW FUNCTION ===== */
+function showSlide(newIndex){
+
+    const current = slides[slideIndex];
+
+    slideIndex = newIndex;
+    if(slideIndex >= slides.length) slideIndex = 0;
+    if(slideIndex < 0) slideIndex = slides.length - 1;
+
+    const next = slides[slideIndex];
+
+    slides.forEach(slide=>{
+        slide.className = "slide";
+        slide.style.zIndex = 0;
+    });
+
+    const effect = transitions[transitionIndex];
+    transitionIndex = (transitionIndex + 1) % transitions.length;
+
+    next.classList.add(effect);
+    next.classList.add("active");
+    next.style.zIndex = 2;
+}
+
+/* ===== BUTTON CONTROLS ===== */
+function nextSlide(){
+    showSlide(slideIndex + 1);
+    resetAuto();
+}
+
+function prevSlide(){
+    showSlide(slideIndex - 1);
+    resetAuto();
+}
+
+/* ===== AUTO SLIDE (4 seconds) ===== */
+function startAuto(){
+    autoTimer = setInterval(()=>{
+        showSlide(slideIndex + 1);
+    },4000);
+}
+
+function resetAuto(){
+    clearInterval(autoTimer);
+    startAuto();
+}
+
+/* START */
+slides[0].classList.add("active");
+startAuto();
+</script>
+
+
+
+</body>
+</html>

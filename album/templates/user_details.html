@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="card shadow-lg">
+    <div class="card-header bg-primary text-white">
+        <h4>👤 User Details</h4>
+    </div>
+
+    <div class="card-body">
+
+        <table class="table table-bordered">
+            <tr>
+                <th width="30%">Username</th>
+                <td>{{ profile.user.username }}</td>
+            </tr>
+
+            <tr>
+                <th>Email</th>
+                <td>{{ profile.user.email|default:"Not provided" }}</td>
+            </tr>
+
+            <tr>
+                <th>Role</th>
+                <td>
+                    <span class="badge bg-info">
+                        {{ profile.role }}
+                    </span>
+                </td>
+            </tr>
+
+            <tr>
+                <th>Approval Status</th>
+                <td>
+                    {% if profile.is_approved %}
+                        <span class="badge bg-success">Approved</span>
+                    {% else %}
+                        <span class="badge bg-warning text-dark">Not Approved</span>
+                    {% endif %}
+                </td>
+            </tr>
+
+            <tr>
+                <th>Staff User</th>
+                <td>
+                    {% if profile.user.is_staff %}
+                        <span class="badge bg-primary">Yes</span>
+                    {% else %}
+                        <span class="badge bg-secondary">No</span>
+                    {% endif %}
+                </td>
+            </tr>
+
+            <tr>
+                <th>Superuser</th>
+                <td>
+                    {% if profile.user.is_superuser %}
+                        <span class="badge bg-danger">Yes</span>
+                    {% else %}
+                        <span class="badge bg-secondary">No</span>
+                    {% endif %}
+                </td>
+            </tr>
+
+            <tr>
+                <th>Date Joined</th>
+                <td>{{ profile.user.date_joined }}</td>
+            </tr>
+
+            <tr>
+                <th>Last Login</th>
+                <td>{{ profile.user.last_login|default:"Never" }}</td>
+            </tr>
+        </table>
+
+        <div class="mt-4 d-flex gap-2">
+            <a href="{% url 'approved-users' %}" class="btn btn-secondary">
+                ⬅ Back
+            </a>
+
+            <a href="{% url 'user-toggle' profile.id %}" class="btn btn-warning">
+                {% if profile.is_approved %}Deactivate{% else %}Activate{% endif %}
+            </a>
+
+            <form method="post"
+                  action="{% url 'user-delete' profile.id %}"
+                  onsubmit="return confirm('Delete this user permanently?');">
+                {% csrf_token %}
+                <button class="btn btn-danger">
+                    🗑 Delete User
+                </button>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

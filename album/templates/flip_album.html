@@ -1,0 +1,766 @@
+{% load static %}
+<!--<!DOCTYPE html>-->
+<!--<html>-->
+<!--<head>-->
+<!--  <title>{{ album.title }} | Flipix</title>-->
+
+<!--  <style>-->
+<!--    body {-->
+<!--      background: #111;-->
+<!--      display: flex;-->
+<!--      flex-direction: column;-->
+<!--      align-items: center;-->
+<!--      justify-content: center;-->
+<!--      min-height: 100vh;-->
+<!--      font-family: Arial;-->
+<!--    }-->
+
+<!--    h2 {-->
+<!--      color: white;-->
+<!--      margin-bottom: 15px;-->
+<!--    }-->
+
+<!--    /* 📖 BOOK SIZE INCREASED */-->
+<!--    .book {-->
+<!--      position: relative;-->
+<!--      width: 600px;     /* ⬅ bigger */-->
+<!--      height: 420px;    /* ⬅ bigger */-->
+<!--      perspective: 3000px;-->
+<!--    }-->
+
+<!--    .page {-->
+<!--      position: absolute;-->
+<!--      top: 0;-->
+<!--      left: 0;-->
+<!--      width: 100%;-->
+<!--      height: 100%;-->
+<!--      background: white;-->
+<!--      transform-origin: left;-->
+<!--      transform-style: preserve-3d;-->
+<!--      transition: transform 1s ease;-->
+<!--      backface-visibility: hidden;-->
+<!--      box-shadow: 0 10px 25px rgba(0,0,0,0.6);-->
+<!--    }-->
+
+<!--    .page img {-->
+<!--      width: 100%;-->
+<!--      height: 100%;-->
+<!--      object-fit: cover;-->
+<!--    }-->
+
+<!--    .page.flipped {-->
+<!--      transform: rotateY(-180deg);-->
+<!--    }-->
+
+<!--    .controls {-->
+<!--      margin-top: 20px;-->
+<!--    }-->
+
+<!--    button {-->
+<!--      padding: 10px 25px;-->
+<!--      font-size: 16px;-->
+<!--      cursor: pointer;-->
+<!--    }-->
+
+<!--    @media(max-width: 768px) {-->
+<!--      .book {-->
+<!--        width: 90vw;-->
+<!--        height: 60vh;-->
+<!--      }-->
+<!--    }-->
+<!--  </style>-->
+<!--</head>-->
+
+<!--<body>-->
+
+<!--<h2>{{ album.title }}</h2>-->
+
+<!--<div class="book" id="book">-->
+<!--  {% for photo in photos %}-->
+<!--    <div class="page" style="z-index: {{ forloop.revcounter }}">-->
+<!--      <img src="{{ photo.image.url }}">-->
+<!--    </div>-->
+<!--  {% endfor %}-->
+<!--</div>-->
+
+<!--<div class="controls">-->
+<!--  <button onclick="prevPage()">⬅ Prev</button>-->
+<!--  <button onclick="nextPage()">Next ➡</button>-->
+<!--</div>-->
+
+<!--<script>-->
+<!--  const pages = document.querySelectorAll(".page");-->
+<!--  let current = 0;-->
+
+<!--  function nextPage() {-->
+<!--    if (current < pages.length) {-->
+<!--      pages[current].classList.add("flipped");-->
+<!--      current++;-->
+<!--    }-->
+<!--  }-->
+
+<!--  function prevPage() {-->
+<!--    if (current > 0) {-->
+<!--      current&#45;&#45;;-->
+<!--      pages[current].classList.remove("flipped");-->
+<!--    }-->
+<!--  }-->
+<!--</script>-->
+
+<!--</body>-->
+<!--</html>-->
+
+<!--<!DOCTYPE html>-->
+<!--<html>-->
+<!--<head>-->
+<!--  <title>{{ album.title }} | Flipix</title>-->
+
+<!--  <style>-->
+<!--    body {-->
+<!--      background: #111;-->
+<!--      display: flex;-->
+<!--      flex-direction: column;-->
+<!--      align-items: center;-->
+<!--      justify-content: center;-->
+<!--      min-height: 100vh;-->
+<!--      font-family: Arial;-->
+<!--    }-->
+
+<!--    h2 {-->
+<!--      color: white;-->
+<!--      margin-bottom: 15px;-->
+<!--    }-->
+
+<!--    .book {-->
+<!--      position: relative;-->
+<!--      width: 600px;-->
+<!--      height: 420px;-->
+<!--      perspective: 3000px;-->
+<!--    }-->
+
+<!--    .page {-->
+<!--      position: absolute;-->
+<!--      top: 0;-->
+<!--      left: 0;-->
+<!--      width: 100%;-->
+<!--      height: 100%;-->
+<!--      background: white;-->
+<!--      transform-origin: left;-->
+<!--      transform-style: preserve-3d;-->
+<!--      transition: transform 1s ease, opacity 1s ease, filter 1s ease;-->
+<!--      backface-visibility: hidden;-->
+<!--      box-shadow: 0 10px 25px rgba(0,0,0,0.6);-->
+<!--    }-->
+
+<!--    .page img {-->
+<!--      width: 100%;-->
+<!--      height: 100%;-->
+<!--      object-fit: cover;-->
+<!--    }-->
+
+<!--    .page.flipped {-->
+<!--      transform: rotateY(-180deg);-->
+<!--      opacity: 0.95;-->
+<!--    }-->
+
+<!--    /* TRANSITIONS POOL */-->
+<!--    .fade { opacity: 0; transition: opacity 1s; }-->
+<!--    .zoom-in { transform: scale(0.8); transition: transform 1s; }-->
+<!--    .zoom-out { transform: scale(1.2); transition: transform 1s; }-->
+<!--    .rotate-left { transform: rotate(-10deg); transition: transform 1s; }-->
+<!--    .rotate-right { transform: rotate(10deg); transition: transform 1s; }-->
+<!--    .pan-left { transform: translateX(-50px); transition: transform 1s; }-->
+<!--    .pan-right { transform: translateX(50px); transition: transform 1s; }-->
+<!--    .pan-up { transform: translateY(-50px); transition: transform 1s; }-->
+<!--    .pan-down { transform: translateY(50px); transition: transform 1s; }-->
+<!--    .blur { filter: blur(5px); transition: filter 1s; }-->
+<!--    .grayscale { filter: grayscale(100%); transition: filter 1s; }-->
+<!--    .brightness { filter: brightness(1.5); transition: filter 1s; }-->
+<!--    .darken { filter: brightness(0.6); transition: filter 1s; }-->
+<!--    .flip-x { transform: rotateX(10deg); transition: transform 1s; }-->
+<!--    .flip-y { transform: rotateY(10deg); transition: transform 1s; }-->
+<!--    .skew { transform: skew(10deg,5deg); transition: transform 1s; }-->
+<!--  </style>-->
+<!--</head>-->
+
+<!--<body>-->
+
+<!--<h2>{{ album.title }}</h2>-->
+
+<!--<div class="book" id="book">-->
+<!--  {% for photo in photos %}-->
+<!--    <div class="page" style="z-index: {{ forloop.revcounter }}">-->
+<!--      <img src="{{ photo.image.url }}">-->
+<!--    </div>-->
+<!--  {% endfor %}-->
+<!--</div>-->
+
+<!--<div class="controls">-->
+<!--  <button onclick="prevPage()">⬅ Prev</button>-->
+<!--  <button onclick="nextPage()">Next ➡</button>-->
+<!--</div>-->
+
+<!--<script>-->
+<!--const pages = document.querySelectorAll(".page");-->
+<!--let current = 0;-->
+
+<!--// TRANSITION TYPES POOL-->
+<!--const transitions = [-->
+<!--  "fade","zoom-in","zoom-out","rotate-left","rotate-right",-->
+<!--  "pan-left","pan-right","pan-up","pan-down",-->
+<!--  "blur","grayscale","brightness","darken",-->
+<!--  "flip-x","flip-y","skew"-->
+<!--];-->
+
+<!--// FUNCTION TO PICK RANDOM TRANSITION-->
+<!--function applyRandomTransition(page){-->
+<!--  const t = transitions[Math.floor(Math.random() * transitions.length)];-->
+<!--  page.classList.add(t);-->
+
+<!--  // REMOVE AFTER 1.2s TO RESET FOR NEXT FLIP-->
+<!--  setTimeout(()=>page.classList.remove(t), 1200);-->
+<!--}-->
+
+<!--function nextPage() {-->
+<!--  if(current < pages.length) {-->
+<!--    applyRandomTransition(pages[current]);-->
+<!--    pages[current].classList.add("flipped");-->
+<!--    current++;-->
+<!--  }-->
+<!--}-->
+
+<!--function prevPage() {-->
+<!--  if(current > 0) {-->
+<!--    current&#45;&#45;;-->
+<!--    pages[current].classList.remove("flipped");-->
+<!--    applyRandomTransition(pages[current]);-->
+<!--  }-->
+<!--}-->
+<!--</script>-->
+
+<!--</body>-->
+<!--</html>-->
+
+
+
+<html>
+<head>
+  <title>{{ album.title }} | Flipix</title>
+     {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+  <style>
+    body {
+      background: #111;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: Arial;
+    }
+
+    h2 {
+      color: white;
+      margin-bottom: 15px;
+    }
+
+    .book {
+      position: relative;
+      width: 600px;
+      height: 420px;
+      perspective: 3000px;
+    }
+
+    .page {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: white;
+      transform-origin: left;
+      transform-style: preserve-3d;
+      transition: transform 1s ease, opacity 1s ease, filter 1s ease;
+      backface-visibility: hidden;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+    }
+
+    .page img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .page.flipped {
+      transform: rotateY(-180deg);
+      opacity: 0.95;
+    }
+
+
+
+    /* TRANSITIONS POOL */
+    .fade { opacity: 50; transition: opacity 4s; }
+    .zoom-in { transform: scale(0.8); transition: transform 4s; }
+    .zoom-out { transform: scale(1.2); transition: transform 4s; }
+    .rotate-left { transform: rotate(-100deg); transition: transform 4s; }
+    .rotate-right { transform: rotate(100deg); transition: transform 4s; }
+    .pan-left { transform: translateX(-50px); transition: transform 4s; }
+    .pan-right { transform: translateX(50px); transition: transform 4s; }
+    .pan-up { transform: translateY(-50px); transition: transform 4s; }
+    .pan-down { transform: translateY(50px); transition: transform 4s; }
+    .blur { filter: blur(5px); transition: filter 4s; }
+    .grayscale { filter: grayscale(100%); transition: filter 4s; }
+    .brightness { filter: brightness(1.5); transition: filter 4s; }
+    .darken { filter: brightness(0.6); transition: filter 4s; }
+    .flip-x { transform: rotateX(100deg); transition: transform 4s; }
+    .flip-y { transform: rotateY(100deg); transition: transform 4s; }
+    .skew { transform: skew(10deg,5deg); transition: transform 4s; }
+
+    .controls { margin-top: 15px; }
+    button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
+
+        /* 🎵 MUSIC */
+    audio{margin-bottom:20px}
+
+
+
+    /* Vertical Shutter Reveal */
+.shutter-in {
+  clip-path: inset(0% 50% 0% 50%); /* बीच से बंद */
+  transition: clip-path 4s ease;
+}
+.shutter-in.active {
+  clip-path: inset(0% 0% 0% 0%); /* पूरा खुल गया */
+}
+    .perspective-tilt {
+  transform: perspective(1000px) rotateX(30deg) translateY(50px);
+  opacity: 0;
+  transition: all 4s cubic-bezier(0.2, 1, 0.3, 1);
+}
+.perspective-tilt.active {
+  transform: perspective(1000px) rotateX(50deg) translateY(0);
+  opacity: 1;
+}
+    .diamond-reveal {
+  clip-path: polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%);
+  transition: clip-path 4s ease-in-out;
+}
+.diamond-reveal.active {
+  clip-path: polygon(50% -20%, 120% 50%, 50% 120%, -20% 50%);
+}
+
+    .ghost-fade {
+  filter: blur(20px);
+  transform: scale(1.5);
+  opacity: 0;
+}
+.ghost-fade.active {
+  filter: blur(0);
+  transform: scale(1);
+  opacity: 1;
+}
+.elastic-slide {
+  transform: translateX(100%);
+  /* Custom Bezier for Elastic effect */
+  transition: transform 4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+.elastic-slide.active {
+  transform: translateX(0);
+}
+
+
+
+  </style>
+</head>
+
+<body>
+<video id="bgVideo" autoplay muted loop playsinline>
+  <source src="{% static 'vecteezy_beautiful-waterfall-in-the-tropical-jungle_27975424.mp4' %}" type="video/mp4">
+</video>
+<h2>{{ album.title }}</h2>
+
+<div class="book" id="book">
+  {% for photo in photos %}
+    <div class="page" style="z-index: {{ forloop.revcounter }}">
+      <img src="{{ photo.image.url }}">
+    </div>
+  {% endfor %}
+</div>
+
+<div class="controls" style="padding:20px;">
+  <button onclick="prevPage()">⬅ Prev</button>
+  <button onclick="nextPage()">Next ➡</button>
+</div>
+
+<!-- 🎵 MUSIC -->
+{% if music_url %}
+<audio controls autoplay loop style="padding-top:20px;">
+  <source src="{{ music_url }}" type="audio/mpeg">
+</audio>
+{% endif %}
+
+<!--<script>-->
+<!--const pages = document.querySelectorAll(".page");-->
+<!--let current = 0;-->
+<!--let transitionIndex = 0;-->
+
+<!--/* "fade",-->
+<!--   "blur","grayscale","brightness","darken",-->
+<!--   "rotate-left","rotate-right",-->
+
+<!--   "shutter-in", "shutter-out",-->
+<!--   "diamond-reveal",-->
+<!--   "perspective-tilt",*/-->
+
+
+<!--/*-->
+<!--   "skew","elastic-slide", "glitch-shift"*/-->
+
+
+<!--const transitions = [-->
+<!--   "zoom-in","zoom-out",-->
+<!--   "pan-left","pan-right",-->
+<!--   "flip-x","flip-y",-->
+<!--   "pan-up","pan-down",-->
+<!--   "bounce-drop",-->
+<!--   "ghost-fade",-->
+
+
+<!--];-->
+
+<!--function applySequentialTransition(page){-->
+<!--  const t = transitions[transitionIndex];-->
+<!--  page.classList.add(t);-->
+
+<!--  setTimeout(() => page.classList.remove(t), 1500);-->
+
+<!--  transitionIndex = (transitionIndex + 1) % transitions.length;-->
+<!--}-->
+
+<!--/* ▶ NEXT PAGE */-->
+<!--function nextPage() {-->
+<!--  if (current < pages.length) {-->
+<!--    pages[current].classList.add("flipped");-->
+<!--    applySequentialTransition(pages[current]);-->
+<!--    current++;-->
+<!--  }-->
+<!--}-->
+
+<!--/* ◀ PREVIOUS PAGE */-->
+<!--function prevPage() {-->
+<!--  if (current > 0) {-->
+<!--    current&#45;&#45;;-->
+<!--    pages[current].classList.remove("flipped");   // reverse flip-->
+<!--    applySequentialTransition(pages[current]);-->
+<!--  }-->
+<!--}-->
+<!--</script>-->
+<script>
+const pages = document.querySelectorAll(".page");
+let current = 0;
+let transitionIndex = 0;
+let autoPlay = true;
+const INTERVAL_TIME = 4000; // 4 sec per page
+
+const transitions = [
+  "zoom-in","zoom-out",
+  "pan-left","pan-right",
+  "flip-x","flip-y",
+  "pan-up","pan-down",
+  "ghost-fade"
+];
+
+function applySequentialTransition(page){
+  const t = transitions[transitionIndex];
+  page.classList.add(t);
+
+  setTimeout(() => {
+    page.classList.remove(t);
+  }, 1500);
+
+  transitionIndex = (transitionIndex + 1) % transitions.length;
+}
+
+/* ▶ NEXT PAGE (FORWARD FLIP) */
+function nextPage(manual = true) {
+  if(manual) stopAuto();
+
+  if (current < pages.length) {
+    pages[current].classList.add("flipped");
+    applySequentialTransition(pages[current]);
+    current++;
+  } else {
+    resetBook();
+  }
+}
+
+/* ◀ PREVIOUS PAGE (REVERSE FLIP STYLE) */
+function prevPage(manual = true) {
+  if(manual) stopAuto();
+
+  if (current > 0) {
+    current--;
+    pages[current].classList.add("reverse");
+    pages[current].classList.remove("flipped");
+    applySequentialTransition(pages[current]);
+
+    setTimeout(()=>{
+      pages[current].classList.remove("reverse");
+    },1000);
+  }
+}
+
+/* 🔄 AUTO SLIDE */
+function autoSlide(){
+  if(autoPlay){
+    nextPage(false);
+  }
+}
+
+let slideTimer = setInterval(autoSlide, INTERVAL_TIME);
+
+function stopAuto(){
+  autoPlay = false;
+  clearInterval(slideTimer);
+}
+
+ /*🔁 RESET BOOK
+function resetBook(){
+  current = 0;
+  pages.forEach(p=>{
+    p.classList.remove("flipped","reverse");
+  });
+}*/
+</script>
+
+
+</body>
+</html>
+
+<!--<script>-->
+<!--const pages = document.querySelectorAll(".page");-->
+<!--let current = 0;-->
+<!--let transitionIndex = 0;-->
+
+<!--// TRANSITIONS IN ORDER (LINE SE)-->
+<!--//  "fade","zoom-in","zoom-out","pan-left","pan-right","pan-up",-->
+<!--//  "pan-down","blur","grayscale","brightness","darken","skew"-->
+
+<!--const transitions = [-->
+
+<!--  "rotate-left",-->
+<!--  "rotate-right",-->
+<!--  "flip-x","flip-y",-->
+
+<!--];-->
+
+<!--const EFFECT_TIME = 2000; // timing bada diya-->
+
+<!--function applySequentialTransition(page){-->
+<!--  const t = transitions[transitionIndex];-->
+<!--  page.classList.add(t);-->
+
+<!--  setTimeout(() => {-->
+<!--    page.classList.remove(t);-->
+<!--  }, EFFECT_TIME);-->
+
+<!--  // move to next transition-->
+<!--  transitionIndex++;-->
+
+<!--  // agar sab use ho gaye → phir se start-->
+<!--  if (transitionIndex >= transitions.length) {-->
+<!--    transitionIndex = 0;-->
+<!--  }-->
+<!--}-->
+
+<!--function nextPage() {-->
+<!--  if (current < pages.length) {-->
+<!--    pages[current].classList.add("flipped");-->
+<!--    applySequentialTransition(pages[current]);-->
+<!--    current++;-->
+<!--  } else {-->
+<!--    // reset book-->
+<!--    current = 0;-->
+<!--    pages.forEach(p => p.classList.remove("flipped"));-->
+<!--  }-->
+<!--}-->
+
+<!--function prevPage() {-->
+<!--  if (current > 0) {-->
+<!--    current&#45;&#45;;-->
+<!--    pages[current].classList.remove("flipped");-->
+<!--    applySequentialTransition(pages[current]);-->
+<!--  }-->
+<!--}-->
+<!--</script>-->
+
+<!--<!DOCTYPE html>-->
+<!--<html>-->
+<!--<head>-->
+<!--  <title>{{ album.title }} | Flipix</title>-->
+
+<!--  <style>-->
+<!--    body {-->
+<!--      background: #111;-->
+<!--      display: flex;-->
+<!--      flex-direction: column;-->
+<!--      align-items: center;-->
+<!--      min-height: 100vh;-->
+<!--      font-family: Arial;-->
+<!--    }-->
+
+
+<!--    h2 { color: white; margin-bottom: 10px; }-->
+
+<!--    .book {-->
+<!--      position: relative;-->
+<!--      width: 800px;-->
+<!--      height: 450px;-->
+<!--      perspective: 3000px;-->
+<!--      margin-bottom: 25px;-->
+<!--    }-->
+<!--    .controls {-->
+<!--      margin-top: 25px;-->
+<!--      z-index: 10;-->
+<!--    }-->
+
+<!--    button {-->
+<!--      padding: 12px 30px;-->
+<!--      font-size: 16px;-->
+<!--      cursor: pointer;-->
+<!--      background: #ff4081;-->
+<!--      color: white;-->
+<!--      border: none;-->
+<!--      border-radius: 6px;-->
+<!--      margin: 0 10px;-->
+<!--    }-->
+
+<!--    button:hover {-->
+<!--      background: #ff1f6b;-->
+<!--    }-->
+
+
+<!--    .spread {-->
+<!--      position: absolute;-->
+<!--      width: 100%;-->
+<!--      height: 100%;-->
+<!--      display: flex;-->
+<!--    }-->
+
+<!--    .page {-->
+<!--      width: 50%;-->
+<!--      height: 100%;-->
+<!--      background: white;-->
+<!--      overflow: hidden;-->
+<!--      box-shadow: 0 10px 25px rgba(0,0,0,0.6);-->
+<!--    }-->
+
+<!--    .page img {-->
+<!--      width: 100%;-->
+<!--      height: 100%;-->
+<!--      object-fit: cover;-->
+<!--    }-->
+
+<!--    .left { border-right: 1px solid #ddd; }-->
+
+<!--    .right {-->
+<!--      transform-origin: left;-->
+<!--      transition: transform 2.5s ease;-->
+<!--      backface-visibility: hidden;-->
+<!--    }-->
+
+<!--    .right.flipped {-->
+<!--      transform: rotateY(-180deg);-->
+<!--    }-->
+
+<!--    /* 🔘 CONTROLS */-->
+<!--    .controls {-->
+<!--      display: flex;-->
+<!--      gap: 15px;-->
+<!--      margin-top: 10px;-->
+<!--    }-->
+
+<!--    .controls button {-->
+<!--      background: #ffc107;-->
+<!--      border: none;-->
+<!--      padding: 12px 30px;-->
+<!--      font-size: 16px;-->
+<!--      font-weight: bold;-->
+<!--      border-radius: 6px;-->
+<!--      cursor: pointer;-->
+<!--    }-->
+
+<!--    .controls button:hover {-->
+<!--      background: #ffca2c;-->
+<!--    }-->
+
+<!--    /* 🎵 MUSIC BAR */-->
+<!--    .music {-->
+<!--      margin-top: 20px;-->
+<!--    }-->
+<!--  </style>-->
+<!--</head>-->
+
+<!--<body>-->
+
+<!--<h2>{{ album.title }}</h2>-->
+
+<!--&lt;!&ndash; 📖 BOOK &ndash;&gt;-->
+<!--<div class="book">-->
+
+<!--  {% for photo in photos %}-->
+<!--    {% if forloop.counter0|divisibleby:2 %}-->
+<!--      <div class="spread" style="z-index: {{ forloop.revcounter }}">-->
+<!--        <div class="page left">-->
+<!--          <img src="{{ photo.image.url }}">-->
+<!--        </div>-->
+<!--    {% else %}-->
+<!--        <div class="page right">-->
+<!--          <img src="{{ photo.image.url }}">-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    {% endif %}-->
+<!--  {% endfor %}-->
+
+<!--</div>-->
+
+<!--&lt;!&ndash; 🔘 BUTTONS &ndash;&gt;-->
+<!--<div class="controls">-->
+<!--  <button onclick="prev()">⬅ Previous</button>-->
+<!--  <button onclick="next()">Next ➡</button>-->
+<!--</div>-->
+
+
+<!--&lt;!&ndash; 🎵 MUSIC PLAYER &ndash;&gt;-->
+<!--{% if music_url %}-->
+<!--<audio controls autoplay loop>-->
+<!--  <source src="{{ music_url }}" type="audio/mpeg">-->
+<!--</audio>-->
+<!--{% endif %}-->
+
+<!--<script>-->
+<!--const spreads = document.querySelectorAll(".spread");-->
+<!--let index = 0;-->
+
+<!--function next(){-->
+<!--  if(index < spreads.length){-->
+<!--    const right = spreads[index].querySelector(".right");-->
+<!--    if(right) right.classList.add("flipped");-->
+<!--    index++;-->
+<!--  }-->
+<!--}-->
+
+<!--function prev(){-->
+<!--  if(index > 0){-->
+<!--    index&#45;&#45;;-->
+<!--    const right = spreads[index].querySelector(".right");-->
+<!--    if(right) right.classList.remove("flipped");-->
+<!--  }-->
+<!--}-->
+<!--</script>-->
+
+<!--</body>-->
+<!--</html>-->
+
+
