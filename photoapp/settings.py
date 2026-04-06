@@ -193,15 +193,39 @@ EMAIL_HOST_PASSWORD = 'ijvc qlrr juxd vxfq'
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-import dj_database_url
 import os
+import dj_database_url
 
+DATABASE_URL = os.environ.get('DATABASE_URL')
+
+if DATABASE_URL:
+    # Railway (PostgreSQL)
+    DATABASES = {
+        'default': dj_database_url.parse(DATABASE_URL)
+    }
+else:
+    # Local (MySQL)
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'qralbum1',        # 👈 tumhara DB name
+            'USER': 'root',             # 👈 username
+            'PASSWORD': 'root',         # 👈 password
+            'HOST': 'localhost',
+            'PORT': '3306',
+        }
+    }
+
+
+# import dj_database_url
+# import os
+#
 ALLOWED_HOSTS = ['*']
-
-DATABASES = {
-    'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
-}
-
+#
+# DATABASES = {
+#     'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
+# }
+#
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 
