@@ -1,1 +1,1 @@
-web: gunicorn photoapp.wsgi:application && python manage.py migrate
+web: python manage.py migrate && gunicorn photoapp.wsgi:application
