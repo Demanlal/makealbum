@@ -1,18 +1,27 @@
-import io, zipfile,qrcode
+import io
+import os
+import subprocess
+import uuid
+import random
+import zipfile
+from io import BytesIO
+
+import qrcode
+
+from django.conf import settings
+from django.contrib import messages
+from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.core.files.base import ContentFile
 from django.core.mail import send_mail
-from sqlparse.filters import output
+from django.http import FileResponse, HttpResponse
+from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
+from django.utils import timezone
+
 from .forms import AlbumRequestForm, RegisterForm, LoginForm
 from .models import Photo, UserProfile, Album, Video
-from django.core.files.base import ContentFile
-from django.urls import reverse
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.admin.views.decorators import staff_member_required
-from django.utils import timezone
-import random
-from io import BytesIO
-import os, subprocess, uuid
-from django.conf import settings
-from django.http import FileResponse, HttpResponse
 
 
 
@@ -104,10 +113,6 @@ def album_detail(request, album_id):
         #'videos': videos
     })
 
-
-from django.shortcuts import get_object_or_404, redirect, render
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 
 @login_required
 def upload_media(request, album_id):
