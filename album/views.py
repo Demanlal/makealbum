@@ -229,6 +229,17 @@ def delete_photo(request, photo_id):
     photo.delete()
     return redirect('album-detail', album_id=album_id)
 
+def register(request):
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            UserProfile.objects.get_or_create(user=user)
+            return redirect('login')
+    else:
+        form = RegisterForm()
+
+    return render(request, 'register.html', {'form': form})
 
 # def register(request):
 #     if request.method == 'POST':
