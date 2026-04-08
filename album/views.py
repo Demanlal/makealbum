@@ -242,14 +242,22 @@ def register(request):
             UserProfile.objects.get_or_create(user=user)
 
             # ✅ Send welcome email (dynamic receiver)
-            if user.email:   # safety check
+            if user.email:
+            # safety check
                 send_mail(
                     'Welcome to Our App',
                     'Your account has been created successfully.',
                     settings.EMAIL_HOST_USER,
                     [user.email],
-                    fail_silently=False,
+                    fail_silently=True,
                 )
+                # send_mail(
+                #     'Welcome to Our App',
+                #     'Your account has been created successfully.',
+                #     settings.EMAIL_HOST_USER,
+                #     [user.email],
+                #     fail_silently=False,
+                # )
 
             return redirect('login')
     else:
