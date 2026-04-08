@@ -96,6 +96,9 @@ LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/login/'
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://web-production-afce4.up.railway.app'
+]
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
@@ -170,35 +173,6 @@ else:
     MEDIA_ROOT = BASE_DIR / 'media'
 
 
-
-
-
-# import os
-# from pathlib import Path
-# from dotenv import load_dotenv
-# BASE_DIR = Path(__file__).resolve().parent.parent
-#
-# load_dotenv(BASE_DIR / '.env')
-#
-#
-# # Variables को env से उठाएं
-# DEBUG = os.getenv('DEBUG', 'False') == 'True'
-# SECRET_KEY = os.getenv('SECRET_KEY', 'unsafe-secret-key')
-#
-# ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "127.0.0.1, localhost").split(",")
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': os.getenv('DB_NAME', ''),
-#         'USER': os.getenv('DB_USER', ''),
-#         'PASSWORD': os.getenv('DB_PASSWORD', ''),
-#         'HOST': os.getenv('DB_HOST', 'localhost'),
-#         'PORT': os.getenv('DB_PORT', '3306'),
-#     }
-# }
-
-
 # ================= EMAIL CONFIG =================
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -243,7 +217,7 @@ else:
 # import dj_database_url
 # import os
 #
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['web-production-afce4.up.railway.app']
 #
 # DATABASES = {
 #     'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
