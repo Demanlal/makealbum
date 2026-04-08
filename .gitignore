@@ -1,10 +1,13 @@
-## Python
+#
 #__pycache__/
 #*.pyc
+#*.pyo
+#*.pyd
 #
 ## Django
 #.env
 #media/
+#staticfiles/
 #
 ## Database
 #db.sqlite3
@@ -13,21 +16,45 @@
 #venv/
 #env/
 #
+## Logs
+#*.log
+#
+## IDE
+#.vscode/
+#.idea/
+#
 ## OS
 #.DS_Store
-# Python
+#Thumbs.db
+#
+## Migrations (optional)
+#*/migrations/*
+#!*/migrations/__init__.py
+
+# Python / Django
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
 
-# Django
+# Environment & Secrets
 .env
+local_settings.py
+
+# Django Media & Static
 media/
 staticfiles/
 
-# Database
+## Database
+#db.sqlite3
+#*.sql              # MySQL dumps/backups ke liye
+#.my.cnf            # MySQL client config file
+# Database (SQLite & MySQL)
+
 db.sqlite3
+*.sql
+*.sqldump
+# mysql/data/ # If you have a local mysql data dir
 
 # Virtual Environment
 venv/
@@ -36,14 +63,12 @@ env/
 # Logs
 *.log
 
-# IDE
+# IDE & OS
 .vscode/
 .idea/
-
-# OS
 .DS_Store
 Thumbs.db
 
-# Migrations (optional)
+# Migrations
 */migrations/*
 !*/migrations/__init__.py
