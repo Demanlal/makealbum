@@ -148,6 +148,8 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+DATABASE_URL = os.environ.get('DATABASE_URL')
+
 if DATABASE_URL:
     # ── Railway: store media in S3-compatible object storage ──────────────
     AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
