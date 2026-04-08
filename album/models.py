@@ -18,8 +18,6 @@ import os
 from django.conf import settings
 
 def album_upload_path(instance, filename):
-    folder = os.path.join(settings.MEDIA_ROOT, "albums", str(instance.album.id))
-    os.makedirs(folder, exist_ok=True)
     return f"albums/{instance.album.id}/{filename}"
 
 
