@@ -201,16 +201,20 @@ DATABASE_URL = os.environ.get('DATABASE_URL')
 if DATABASE_URL:
     # Railway (PostgreSQL)
     DATABASES = {
-        'default': dj_database_url.parse(DATABASE_URL)
+        'default': dj_database_url.config(
+            default=DATABASE_URL,
+            conn_max_age=600,
+            engine='django.db.backends.postgresql',
+        )
     }
 else:
     # Local (MySQL)
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'qralbum1',        # 👈 tumhara DB name
-            'USER': 'root',             # 👈 username
-            'PASSWORD': 'root',         # 👈 password
+            'NAME': 'qralbum1',
+            'USER': 'root',
+            'PASSWORD': 'root',
             'HOST': 'localhost',
             'PORT': '3306',
         }
