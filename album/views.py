@@ -229,52 +229,33 @@ def delete_photo(request, photo_id):
     photo.delete()
     return redirect('album-detail', album_id=album_id)
 
+
 def register(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
+
+            # ✅ Create user (ONLY ONCE)
             user = form.save()
+
+            # ✅ Create user profile safely
             UserProfile.objects.get_or_create(user=user)
+
+            # ✅ Send welcome email (dynamic receiver)
+            if user.email:   # safety check
+                send_mail(
+                    'Welcome to Our App',
+                    'Your account has been created successfully.',
+                    settings.EMAIL_HOST_USER,
+                    [user.email],
+                    fail_silently=False,
+                )
+
             return redirect('login')
     else:
         form = RegisterForm()
 
     return render(request, 'register.html', {'form': form})
-
-# def register(request):
-#     if request.method == 'POST':
-#         form = RegisterForm(request.POST)
-#         if form.is_valid():
-#
-#             # ✅ Create user (ONLY ONCE)
-#             user = form.save()
-#
-#             # ✅ Create user profile safely
-#             UserProfile.objects.get_or_create(user=user)
-#
-#             # ✅ Send welcome email (dynamic receiver)
-#             if user.email:
-#             # safety check
-#                 send_mail(
-#                     'Welcome to Our App',
-#                     'Your account has been created successfully.',
-#                     settings.EMAIL_HOST_USER,
-#                     [user.email],
-#                     fail_silently=True,
-#                 )
-#                 # send_mail(
-#                 #     'Welcome to Our App',
-#                 #     'Your account has been created successfully.',
-#                 #     settings.EMAIL_HOST_USER,
-#                 #     [user.email],
-#                 #     fail_silently=False,
-#                 # )
-#
-#             return redirect('login')
-#     else:
-#         form = RegisterForm()
-#
-#     return render(request, 'register.html', {'form': form})
 
 
 
