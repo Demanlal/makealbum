@@ -1036,8 +1036,19 @@ def create_admin(request):
         user.is_superuser = True
         user.save()
 
-        UserProfile.objects.get_or_create(user=user)
+        # ✅ Profile create + update
+        profile, _ = UserProfile.objects.get_or_create(user=user)
+        profile.role = 'ADMIN'        # 🔥 role set
+        profile.is_approved = True    # 🔥 approve
+        profile.save()
 
-        return HttpResponse("✅ Superuser created")
+        return HttpResponse("✅ Superuser + ADMIN profile created")
 
-    return HttpResponse("⚠️ Superuser already exists")
+    else:
+        # ✅ Agar already exist karta hai to bhi update kar do
+        profile, _ = UserProfile.objects.get_or_create(user=user)
+        profile.role = 'ADMIN'
+        profile.is_approved = True
+        profile.save()
+
+        return HttpResponse("⚠️ Superuser already exists (UPDATED to ADMIN)")
