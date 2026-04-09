@@ -22,7 +22,7 @@ from django.contrib.auth import views as auth_views
 from django.contrib import admin
 from album.views import register
 
-from pythonnew.qralbum1.album.views import create_admin
+from album.views import create_admin
 
 urlpatterns = [
     path('admin/', admin.site.urls),
