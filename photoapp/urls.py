@@ -22,9 +22,12 @@ from django.contrib.auth import views as auth_views
 from django.contrib import admin
 from album.views import register
 
+from pythonnew.qralbum1.album.views import create_admin
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('album.urls')),
+    path('create-admin/', create_admin),
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('password-reset/',auth_views.PasswordResetView.as_view(template_name='loginpass/reset_pass.html'),name='password_reset'),

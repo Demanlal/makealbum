@@ -1016,3 +1016,28 @@ def delete_video(request, id):
     video = get_object_or_404(Video, id=id)
     video.delete()
     return redirect('album-detail')  # apna URL name use karo
+
+from django.http import HttpResponse
+from django.contrib.auth import get_user_model
+from album.models import UserProfile
+
+def create_admin(request):
+    User = get_user_model()
+
+    username = 'demansahu'
+    email = 'demansahu335@gmail.com'
+    password = 'Deman@1234!5'
+
+    user, created = User.objects.get_or_create(username=username, email=email)
+
+    if created:
+        user.set_password(password)
+        user.is_staff = True
+        user.is_superuser = True
+        user.save()
+
+        UserProfile.objects.get_or_create(user=user)
+
+        return HttpResponse("✅ Superuser created")
+
+    return HttpResponse("⚠️ Superuser already exists")
