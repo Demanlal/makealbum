@@ -153,25 +153,28 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 DATABASE_URL = os.environ.get('DATABASE_URL')
 
-if DATABASE_URL:
-    # ── Railway: store media in S3-compatible object storage ──────────────
-    AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
-    AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
-    AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
-    AWS_S3_REGION_NAME = os.environ.get('AWS_S3_REGION_NAME', 'us-east-1')
-    AWS_S3_ENDPOINT_URL = os.environ.get('AWS_S3_ENDPOINT_URL')  # set for non-AWS S3 providers
-    AWS_DEFAULT_ACL = 'public-read'
-    AWS_S3_FILE_OVERWRITE = False
-    AWS_QUERYSTRING_AUTH = False
+# if DATABASE_URL:
+#     # ── Railway: store media in S3-compatible object storage ──────────────
+#     AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+#     AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+#     AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+#     AWS_S3_REGION_NAME = os.environ.get('AWS_S3_REGION_NAME', 'us-east-1')
+#     AWS_S3_ENDPOINT_URL = os.environ.get('AWS_S3_ENDPOINT_URL')  # set for non-AWS S3 providers
+#     AWS_DEFAULT_ACL = 'public-read'
+#     AWS_S3_FILE_OVERWRITE = False
+#     AWS_QUERYSTRING_AUTH = False
+#
+#     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+#
+#     MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/'
+# else:
+#     # ── Local development: store media on the local filesystem ────────────
+#     MEDIA_URL = '/media/'
+#     MEDIA_ROOT = BASE_DIR / 'media'
+DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 
-    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-
-    MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/'
-else:
-    # ── Local development: store media on the local filesystem ────────────
-    MEDIA_URL = '/media/'
-    MEDIA_ROOT = BASE_DIR / 'media'
-
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # ================= EMAIL CONFIG =================
 
@@ -197,7 +200,7 @@ else:
 import os
 import dj_database_url
 
-DATABASE_URL = os.environ.get('DATABASE_URL')
+
 
 if DATABASE_URL:
     # Railway (PostgreSQL)
