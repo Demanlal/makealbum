@@ -1,1 +1,1 @@
-web: python manage.py migrate && python manage.py collectstatic --noinput && createsu && gunicorn photoapp.wsgi:application --timeout 120
+web: python manage.py migrate && python manage.py collectstatic --noinput && gunicorn photoapp.wsgi:application --timeout 120
