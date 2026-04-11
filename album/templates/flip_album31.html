@@ -182,8 +182,21 @@
   right:0;
   transform:rotateY(180deg);
 }
-
-
+.front{
+  left:0;
+}
+.sheet.flipped{
+  transform:rotateY(-180deg);
+}
+/* SHEET */
+.sheet{
+  position:absolute;
+  width:50%;
+  height:100%;
+  transform-style:preserve-3d;
+  transform-origin:center left;   /* book spine */
+  transition:transform 1.2s;
+}
   </style>
 </head>
 
