@@ -128,6 +128,10 @@ audio{
 .mt-3{
   text-align:center;
     }
+.mt{
+  padding-top:70%;
+  text-align:center;
+}
 </style>
 </head>
 
@@ -204,9 +208,10 @@ audio{
 <!--    <button onclick="prevPage()">⬅ Prev</button>-->
 <!--    <button onclick="nextPage()">Next ➡</button>-->
 <!--</div>-->
-<div style="padding-top:7%; text-align:center;">
+<div class="mt" style="padding-top:7%; text-align:center;">
       <button type="button" onclick="prevPage()">⬅ Prev</button>
       <button type="button" onclick="nextPage()">Next ➡</button>
+      <audio id="bgMusic" style="padding-top:0.5%;" autoplay controls></audio>
 </div>
 <!-- 🎵 CURRENT MUSIC PREVIEW -->
 <!--{% if music_url %}-->
@@ -214,7 +219,7 @@ audio{
 <!--  <source src="{{ music_url }}?v={{ now|date:'U' }}" type="audio/mpeg">-->
 <!--</audio>-->
 <!--{% endif %}-->
-<audio id="bgMusic" autoplay controls></audio>
+<!--<audio id="bgMusic" autoplay controls></audio>-->
 
 <!--<script>-->
 <!--function changeVideo(src){-->
