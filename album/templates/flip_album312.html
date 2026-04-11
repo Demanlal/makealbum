@@ -82,7 +82,7 @@ button{
   margin:10px;
   cursor:pointer;
 }
-#bgVideo1{
+#bgVideo{
   position: fixed;
   top: 0;
   left: 0;
@@ -124,42 +124,67 @@ audio{
   display:block;
   margin:20px auto;
 }
-.mt-3{
-  text-align:center;
-    }
 </style>
 </head>
 
 <body>
 
 <h2 class="tc">{{ album.title }}</h2>
+<!-- 🎬 BACKGROUND VIDEO -->
+<video id="bgVideo" autoplay muted loop playsinline>
+  <source id="bgSource"
+    src="{% static 'video1.mp4' %}"
+    type="video/mp4">
+</video>
+<div class="mt-3">
+<!--<a href="{% url 'album_video1' album.id %}"-->
+<!--   class="btn btn-success btn-lg">-->
+<!--   🎬 Download Cinematic Video-->
+<!--</a>-->
+</div>
 
-<form method="POST" enctype="multipart/form-data" action="{% url 'album_video1' album.id %}">
-  {% csrf_token %}
+<div class="video-controls">
+  <label>
+    <input type="radio" name="bgvideo" checked
+           onchange="changeVideo('{% static 'video1.mp4' %}')">
+    Butterfly
+  </label>
 
-  <!-- 🎬 Upload -->
-  <div class="video-controls" style="bottom:120px">
-    <label style="margin-bottom:10px">
-      🎬 Upload Background Video
-      <input type="file" id="videoUpload" name="bg_upload" accept="video/*">
-    </label>
+  <label>
+    <input type="radio" name="bgvideo"
+           onchange="changeVideo('{% static 'video2.mp4' %}')">
+    House
+  </label>
 
-    <label>
-      🎵 Upload Music
-      <input type="file" id="musicUpload" name="music_upload" accept="audio/*">
-    </label>
-  </div>
+<!--  <label>-->
+<!--    <input type="radio" name="bgvideo"-->
+<!--           onchange="changeVideo('{% static 'video3.mp4' %}')">-->
+<!--    Wedding-->
+<!--  </label>-->
+<!--  <label>-->
+<!--    <input type="radio" name="bgvideo" checked-->
+<!--           onchange="changeVideo('{% static 'video4.mp4' %}')">-->
+<!--    Waterfall-->
+<!--  </label>-->
 
-  <!-- 🎬 BUTTON -->
-  <div class="mt-3">
-    <button type="submit" class="btn btn-success btn-lg">
-      🎬 Generate Cinematic Video
-    </button>
-  </div>
+<!--  <label>-->
+<!--    <input type="radio" name="bgvideo"-->
+<!--           onchange="changeVideo('{% static 'video5.mp4' %}')">-->
+<!--    Forest-->
+<!--  </label>-->
 
-</form>
-
-<video id="bgVideo1" autoplay muted loop playsinline></video>
+<!--  <label>-->
+<!--    <input type="radio" name="bgvideo"-->
+<!--           onchange="changeVideo('{% static 'video6.mp4' %}')">-->
+<!--    Wedding-->
+<!--  </label>-->
+<!--  <label>-->
+<!--    <input type="radio" name="bgvideo"-->
+<!--           onchange="changeVideo('{% static 'video7.mp4' %}')">-->
+<!--    Wedding-->
+<!--  </label>-->
+</div>
+<!--<video id="bgVideo" autoplay muted loop playsinline></video>-->
 
 <div class="book">
     {% for photo in photos %}
@@ -182,6 +207,28 @@ audio{
 </div>
 <audio id="bgMusic" autoplay controls></audio>
 
+<!--&lt;!&ndash; 🎵 MUSIC &ndash;&gt;-->
+<!--{% if music_url %}-->
+<!--<audio autoplay controls>-->
+<!--  <source src="{{ music_url }}?v={{ now|date:'U' }}" type="audio/mpeg">-->
+<!--</audio>-->
+
+<!--{% endif %}-->
+<!--<div class="video-controls" style="bottom:120px">-->
+<!--  <label style="margin-bottom:10px">-->
+<!--    🎬 Upload Background Video-->
+<!--    <input type="file" id="videoUpload" name="bg_upload" accept="video/*" hidden>-->
+<!--  </label>-->
+
+<!--  &lt;!&ndash; MUSIC UPLOAD &ndash;&gt;-->
+<!--  <label>-->
+<!--    🎵 Upload Music-->
+<!--    <input type="file" id="musicUpload" name="music_upload" accept="audio/*" hidden>-->
+<!--  </label>-->
+<!--&lt;!&ndash;    <audio id="bgMusic" autoplay controls></audio>&ndash;&gt;-->
+<!--&lt;!&ndash;    <video id="bgVideo1" autoplay muted loop playsinline></video>&ndash;&gt;-->
+<!--</div>-->
+
 <script>
 function changeVideo(src){
   const video = document.getElementById("bgVideo");
@@ -193,6 +240,50 @@ function changeVideo(src){
   video.play();
 }
 </script>
+<!--<script>-->
+<!--  const sheets = document.querySelectorAll(".sheet");-->
+<!--let current = 0;-->
+
+<!--/* initial stack order */-->
+<!--sheets.forEach((sheet,i)=>{-->
+<!--  sheet.style.zIndex = sheets.length - i;-->
+<!--});-->
+
+<!--/* NEXT PAGE */-->
+<!--function nextPage(){-->
+
+<!--  if(current >= sheets.length) return;-->
+
+<!--  let page = sheets[current];-->
+
+<!--  page.classList.add("flipped");-->
+
+<!--  /* animation ke baad z-index change */-->
+<!--  setTimeout(()=>{-->
+<!--    page.style.zIndex = current;-->
+<!--  },600);-->
+
+<!--  current++;-->
+<!--}-->
+
+
+<!--function prevPage(){-->
+
+<!--  if(current <= 0) return;-->
+
+<!--  current&#45;&#45;;-->
+
+<!--  let page = sheets[current];-->
+
+<!--  page.classList.remove("flipped");-->
+
+<!--  /* animation ke baad z-index change */-->
+<!--  setTimeout(()=>{-->
+<!--    page.style.zIndex = sheets.length - current;-->
+<!--  },600);-->
+
+<!--}-->
+<!--</script>-->
 <script id="2a1q6c">
 const sheets = document.querySelectorAll(".sheet");
 
