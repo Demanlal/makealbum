@@ -431,7 +431,7 @@ def album_view(request, album_id):
 
     music_url = settings.MEDIA_URL + "music/" + selected_music if selected_music else None
 
-    return render(request, "flip_album313.html", {
+    return render(request, "flip_album31.html", {
         "album": album,
         "photos": photos,
         "music_url": music_url,
