@@ -178,11 +178,6 @@
 .elastic-slide.active {
   transform: translateX(0);
 }
-.back{
-  right:0;
-  transform:rotateY(180deg);
-}
-
 
   </style>
 </head>
@@ -220,30 +215,16 @@
 <video id="bgVideo" autoplay muted loop playsinline></video>
 
 <!-- 📖 FLIP BOOK -->
-<div class="book-wrapper">
-  <div class="book">
-      {% for photo in photos %}
 
-        {% if forloop.counter0|divisibleby:2 %}
-          <div class="sheet">
-
-            <!-- LEFT PAGE -->
-            <div class="page front">
-              <img src="{{ photo.image.url }}">
-            </div>
-
-        {% else %}
-
-            <!-- RIGHT PAGE -->
-            <div class="page back">
-              <img src="{{ photo.image.url }}">
-            </div>
-
+  <div class="book-wrapper">
+      <div class="book" id="book">
+        {% for photo in photos %}
+          <div class="page" style="z-index: {{ forloop.revcounter }}">
+            <img src="{{ photo.image.url }}">
           </div>
-        {% endif %}
-
-      {% endfor %}
-    </div>
+        {% endfor %}
+      </div>
+  </div>
 <!--  <div class="book" id="book">-->
 <!--    {% for photo in photos %}-->
 <!--      <div class="page" style="z-index: {{ forloop.revcounter }}">-->
@@ -251,7 +232,7 @@
 <!--      </div>-->
 <!--    {% endfor %}-->
 <!--  </div>-->
-</div>
+
 
 <div class="controls">
   <button type="button" onclick="prevPage()">⬅ Prev</button>
@@ -260,155 +241,155 @@
 
 <audio id="bgMusic" autoplay controls></audio>
 
-<!--<script>-->
-<!--const pages = document.querySelectorAll(".page");-->
-<!--let current = 0;-->
-<!--let transitionIndex = 0;-->
-<!--let autoPlay = true;-->
-<!--let direction = "forward"; // 👉 forward | backward-->
-
-<!--const INTERVAL_TIME = 4000;-->
-
-<!--const transitions = [-->
-<!--  "zoom-in","zoom-out",-->
-<!--  "pan-left","pan-right",-->
-<!--  "flip-x","flip-y",-->
-<!--  "pan-up","pan-down",-->
-<!--  "ghost-fade"-->
-<!--];-->
-
-<!--function applySequentialTransition(page){-->
-<!--  const t = transitions[transitionIndex];-->
-<!--  page.classList.add(t);-->
-
-<!--  setTimeout(() => {-->
-<!--    page.classList.remove(t);-->
-<!--  }, 1500);-->
-
-<!--  transitionIndex = (transitionIndex + 1) % transitions.length;-->
-<!--}-->
-
-<!--/* ▶ NEXT PAGE */-->
-<!--function nextPage(manual = true) {-->
-<!--  if(manual) stopAuto();-->
-
-<!--  if (current < pages.length) {-->
-<!--    pages[current].classList.add("flipped");-->
-<!--    applySequentialTransition(pages[current]);-->
-<!--    current++;-->
-<!--  }-->
-<!--}-->
-
-<!--/* ◀ PREVIOUS PAGE */-->
-<!--function prevPage(manual = true) {-->
-<!--  if(manual) stopAuto();-->
-
-<!--  if (current > 0) {-->
-<!--    current&#45;&#45;;-->
-<!--    pages[current].classList.add("reverse");-->
-<!--    pages[current].classList.remove("flipped");-->
-<!--    applySequentialTransition(pages[current]);-->
-
-<!--    setTimeout(()=>{-->
-<!--      pages[current].classList.remove("reverse");-->
-<!--    },1000);-->
-<!--  }-->
-<!--}-->
-
-<!--/* 🔄 AUTO SLIDE WITH AUTO REVERSE */-->
-<!--function autoSlide(){-->
-<!--  if(!autoPlay) return;-->
-
-<!--  if(direction === "forward"){-->
-<!--    if(current < pages.length){-->
-<!--      nextPage(false);-->
-<!--    } else {-->
-<!--      direction = "backward"; // 🔁 reverse start-->
-<!--    }-->
-<!--  }-->
-<!--  else if(direction === "backward"){-->
-<!--    if(current > 0){-->
-<!--      prevPage(false);-->
-<!--    } else {-->
-<!--      direction = "forward"; // 🔁 forward again-->
-<!--    }-->
-<!--  }-->
-<!--}-->
-
-<!--let slideTimer = setInterval(autoSlide, INTERVAL_TIME);-->
-
-<!--function stopAuto(){-->
-<!--  autoPlay = false;-->
-<!--  clearInterval(slideTimer);-->
-<!--}-->
-<!--</script>-->
-<script id="2a1q6c">
-const sheets = document.querySelectorAll(".sheet");
-
+<script>
+const pages = document.querySelectorAll(".page");
 let current = 0;
-let direction = "forward";
+let transitionIndex = 0;
+let autoPlay = true;
+let direction = "forward"; // 👉 forward | backward
 
 const INTERVAL_TIME = 4000;
 
-/* initial stack order */
-sheets.forEach((sheet,i)=>{
-  sheet.style.zIndex = sheets.length - i;
-});
+const transitions = [
+  "zoom-in","zoom-out",
+  "pan-left","pan-right",
+  "flip-x","flip-y",
+  "pan-up","pan-down",
+  "ghost-fade"
+];
 
-/* AUTO SLIDE */
+function applySequentialTransition(page){
+  const t = transitions[transitionIndex];
+  page.classList.add(t);
+
+  setTimeout(() => {
+    page.classList.remove(t);
+  }, 1500);
+
+  transitionIndex = (transitionIndex + 1) % transitions.length;
+}
+
+/* ▶ NEXT PAGE */
+function nextPage(manual = true) {
+  if(manual) stopAuto();
+
+  if (current < pages.length) {
+    pages[current].classList.add("flipped");
+    applySequentialTransition(pages[current]);
+    current++;
+  }
+}
+
+/* ◀ PREVIOUS PAGE */
+function prevPage(manual = true) {
+  if(manual) stopAuto();
+
+  if (current > 0) {
+    current--;
+    pages[current].classList.add("reverse");
+    pages[current].classList.remove("flipped");
+    applySequentialTransition(pages[current]);
+
+    setTimeout(()=>{
+      pages[current].classList.remove("reverse");
+    },1000);
+  }
+}
+
+/* 🔄 AUTO SLIDE WITH AUTO REVERSE */
 function autoSlide(){
+  if(!autoPlay) return;
 
   if(direction === "forward"){
-
-    if(current < sheets.length){
-
-      let page = sheets[current];
-
-      page.classList.add("flipped");
-
-      setTimeout(()=>{
-        page.style.zIndex = current;
-      },600);
-
-      current++;
-
-    }else{
-      direction = "backward";
+    if(current < pages.length){
+      nextPage(false);
+    } else {
+      direction = "backward"; // 🔁 reverse start
     }
-
   }
-
-  else{
-
+  else if(direction === "backward"){
     if(current > 0){
-
-      current--;
-
-      let page = sheets[current];
-
-      page.classList.remove("flipped");
-
-      setTimeout(()=>{
-        page.style.zIndex = sheets.length - current;
-      },600);
-
-    }else{
-      direction = "forward";
+      prevPage(false);
+    } else {
+      direction = "forward"; // 🔁 forward again
     }
-
   }
-
 }
 
-/* timer */
-setInterval(autoSlide, INTERVAL_TIME);
-</script>
-<script>
-function changeVideo(src) {
-  document.getElementById("bgSource").src = src;
-  document.getElementById("bgVideo").load();
+let slideTimer = setInterval(autoSlide, INTERVAL_TIME);
+
+function stopAuto(){
+  autoPlay = false;
+  clearInterval(slideTimer);
 }
 </script>
+<!--<script id="2a1q6c">-->
+<!--const sheets = document.querySelectorAll(".sheet");-->
+
+<!--let current = 0;-->
+<!--let direction = "forward";-->
+
+<!--const INTERVAL_TIME = 4000;-->
+
+<!--/* initial stack order */-->
+<!--sheets.forEach((sheet,i)=>{-->
+<!--  sheet.style.zIndex = sheets.length - i;-->
+<!--});-->
+
+<!--/* AUTO SLIDE */-->
+<!--function autoSlide(){-->
+
+<!--  if(direction === "forward"){-->
+
+<!--    if(current < sheets.length){-->
+
+<!--      let page = sheets[current];-->
+
+<!--      page.classList.add("flipped");-->
+
+<!--      setTimeout(()=>{-->
+<!--        page.style.zIndex = current;-->
+<!--      },600);-->
+
+<!--      current++;-->
+
+<!--    }else{-->
+<!--      direction = "backward";-->
+<!--    }-->
+
+<!--  }-->
+
+<!--  else{-->
+
+<!--    if(current > 0){-->
+
+<!--      current&#45;&#45;;-->
+
+<!--      let page = sheets[current];-->
+
+<!--      page.classList.remove("flipped");-->
+
+<!--      setTimeout(()=>{-->
+<!--        page.style.zIndex = sheets.length - current;-->
+<!--      },600);-->
+
+<!--    }else{-->
+<!--      direction = "forward";-->
+<!--    }-->
+
+<!--  }-->
+
+<!--}-->
+
+<!--/* timer */-->
+<!--setInterval(autoSlide, INTERVAL_TIME);-->
+<!--</script>-->
+<!--<script>-->
+<!--function changeVideo(src) {-->
+<!--  document.getElementById("bgSource").src = src;-->
+<!--  document.getElementById("bgVideo").load();-->
+<!--}-->
+<!--</script>-->
 <script>
 document.addEventListener("DOMContentLoaded", function(){
 
