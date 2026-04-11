@@ -185,6 +185,55 @@
 </head>
 
 <body>
+<!--<h2>{{ album.title }}</h2>-->
+<!--<div class="video-controls" style="bottom:120px">-->
+<!--  <label style="margin-bottom:10px">-->
+<!--    🎬 Upload Background Video-->
+<!--    <input type="file" id="videoUpload" accept="video/*" hidden>-->
+<!--  </label>-->
+
+<!--  &lt;!&ndash; MUSIC UPLOAD &ndash;&gt;-->
+<!--  <label>-->
+<!--    🎵 Upload Music-->
+<!--    <input type="file" id="musicUpload" accept="audio/*" hidden>-->
+<!--  </label>-->
+
+<!--</div>-->
+
+<!--<a href="{% url 'album_video' album.id %}"-->
+<!--   class="btn btn-success mt-3">-->
+<!--   🎬 Download Video Album-->
+<!--</a>-->
+
+<!--<div class="mt-3">-->
+<!--<a href="{% url 'album_video1' album.id %}"-->
+<!--   class="btn btn-success btn-lg">-->
+<!--   🎬 Download Cinematic Video-->
+<!--</a>-->
+<!--</div>-->
+<!--<video id="bgVideo" autoplay muted loop playsinline>-->
+<!--</video>-->
+
+<!--&lt;!&ndash; 📖 FLIP BOOK &ndash;&gt;-->
+<!--<div class="book-wrapper">-->
+<!--  <div class="book" id="book">-->
+<!--    {% for photo in photos %}-->
+<!--      <div class="page" style="z-index: {{ forloop.revcounter }}">-->
+<!--        <img src="{{ photo.image.url }}">-->
+<!--      </div>-->
+<!--    {% endfor %}-->
+<!--  </div>-->
+<!--</div>-->
+
+
+<!--<div class="controls">-->
+<!--  <button onclick="prevPage()">⬅ Prev</button>-->
+<!--  <button onclick="nextPage()">Next ➡</button>-->
+<!--</div>-->
+
+
+
+<!--<audio id="bgMusic" autoplay controls></audio>-->
 <h2>{{ album.title }}</h2>
 
 <form method="POST" enctype="multipart/form-data" action="{% url 'album_video1' album.id %}">
