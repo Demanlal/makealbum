@@ -82,6 +82,7 @@ button{
   margin:10px;
   cursor:pointer;
 }
+
 #bgVideo1{
   position: fixed;
   top: 0;
@@ -208,11 +209,11 @@ audio{
       <button type="button" onclick="nextPage()">Next ➡</button>
 </div>
 <!-- 🎵 CURRENT MUSIC PREVIEW -->
-{% if music_url %}
-<audio autoplay controls>
-  <source src="{{ music_url }}?v={{ now|date:'U' }}" type="audio/mpeg">
-</audio>
-{% endif %}
+<!--{% if music_url %}-->
+<!--<audio autoplay controls>-->
+<!--  <source src="{{ music_url }}?v={{ now|date:'U' }}" type="audio/mpeg">-->
+<!--</audio>-->
+<!--{% endif %}-->
 <audio id="bgMusic" autoplay controls></audio>
 
 <!--<script>-->
