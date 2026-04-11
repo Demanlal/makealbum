@@ -218,13 +218,36 @@
 
 <!-- 📖 FLIP BOOK -->
 <div class="book-wrapper">
-  <div class="book" id="book">
-    {% for photo in photos %}
-      <div class="page" style="z-index: {{ forloop.revcounter }}">
-        <img src="{{ photo.image.url }}">
-      </div>
-    {% endfor %}
-  </div>
+  <div class="book">
+      {% for photo in photos %}
+
+        {% if forloop.counter0|divisibleby:2 %}
+          <div class="sheet">
+
+            <!-- LEFT PAGE -->
+            <div class="page front">
+              <img src="{{ photo.image.url }}">
+            </div>
+
+        {% else %}
+
+            <!-- RIGHT PAGE -->
+            <div class="page back">
+              <img src="{{ photo.image.url }}">
+            </div>
+
+          </div>
+        {% endif %}
+
+      {% endfor %}
+    </div>
+<!--  <div class="book" id="book">-->
+<!--    {% for photo in photos %}-->
+<!--      <div class="page" style="z-index: {{ forloop.revcounter }}">-->
+<!--        <img src="{{ photo.image.url }}">-->
+<!--      </div>-->
+<!--    {% endfor %}-->
+<!--  </div>-->
 </div>
 
 <div class="controls">
