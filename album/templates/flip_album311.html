@@ -161,20 +161,43 @@ audio{
 
 <video id="bgVideo1" autoplay muted loop playsinline></video>
 
-<div class="book">
-    {% for photo in photos %}
+<!--<div class="book">-->
+<!--    {% for photo in photos %}-->
 
-    <div class="sheet">
-        <div class="page front">
-            <img src="{{ photo.image.url }}">
-        </div>
+<!--    <div class="sheet">-->
+<!--        <div class="page front">-->
+<!--            <img src="{{ photo.image.url }}">-->
+<!--        </div>-->
 
-        <div class="page back">
-            <img src="{{ photo.image.url }}">
-        </div>
+<!--        <div class="page back">-->
+<!--            <img src="{{ photo.image.url }}">-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    {% endfor %}-->
+<!--</div>-->
+    <div class="book">
+      {% for photo in photos %}
+
+        {% if forloop.counter0|divisibleby:2 %}
+          <div class="sheet">
+
+            <!-- LEFT PAGE -->
+            <div class="page front">
+              <img src="{{ photo.image.url }}">
+            </div>
+
+        {% else %}
+
+            <!-- RIGHT PAGE -->
+            <div class="page back">
+              <img src="{{ photo.image.url }}">
+            </div>
+
+          </div>
+        {% endif %}
+
+      {% endfor %}
     </div>
-    {% endfor %}
-</div>
 
 <div class="controls">
     <button onclick="prevPage()">⬅ Prev</button>
@@ -182,15 +205,22 @@ audio{
 </div>
 <audio id="bgMusic" autoplay controls></audio>
 
-<script>
-function changeVideo(src){
-  const video = document.getElementById("bgVideo");
-  const source = document.getElementById("bgSource");
+<!--<script>-->
+<!--function changeVideo(src){-->
+<!--  const video = document.getElementById("bgVideo");-->
+<!--  const source = document.getElementById("bgSource");-->
 
-  video.pause();
-  source.src = src;
-  video.load();
-  video.play();
+<!--  video.pause();-->
+<!--  source.src = src;-->
+<!--  video.load();-->
+<!--  video.play();-->
+<!--}-->
+<!--</script>-->
+<!-- 🎬 JS PREVIEW -->
+<script>
+function changeVideo(src) {
+  document.getElementById("bgSource").src = src;
+  document.getElementById("bgVideo").load();
 }
 </script>
 <script id="2a1q6c">
