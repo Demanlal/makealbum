@@ -199,10 +199,20 @@ audio{
       {% endfor %}
     </div>
 
+<!--<div class="controls">-->
+<!--    <button onclick="prevPage()">⬅ Prev</button>-->
+<!--    <button onclick="nextPage()">Next ➡</button>-->
+<!--</div>-->
 <div class="controls">
-    <button onclick="prevPage()">⬅ Prev</button>
-    <button onclick="nextPage()">Next ➡</button>
+      <button type="button" onclick="prevPage()">⬅ Prev</button>
+      <button type="button" onclick="nextPage()">Next ➡</button>
 </div>
+<!-- 🎵 CURRENT MUSIC PREVIEW -->
+{% if music_url %}
+<audio autoplay controls>
+  <source src="{{ music_url }}?v={{ now|date:'U' }}" type="audio/mpeg">
+</audio>
+{% endif %}
 <audio id="bgMusic" autoplay controls></audio>
 
 <!--<script>-->
