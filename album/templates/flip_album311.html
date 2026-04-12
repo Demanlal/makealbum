@@ -75,13 +75,9 @@ body{
 /* BUTTON */
 
 
+.controls { margin-top: 15px; }
+button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
 
-button{
-  padding:10px 25px;
-  font-size:18px;
-  margin:10px;
-  cursor:pointer;
-}
 
 #bgVideo1{
   position: fixed;
@@ -128,10 +124,7 @@ audio{
 .mt-3{
   text-align:center;
     }
-.mt{
-  padding-top:70%;
-  text-align:center;
-}
+
 </style>
 </head>
 
@@ -208,11 +201,12 @@ audio{
 <!--    <button onclick="prevPage()">⬅ Prev</button>-->
 <!--    <button onclick="nextPage()">Next ➡</button>-->
 <!--</div>-->
-<div class="mt" style="padding-top:7%; text-align:center;">
-      <button type="button" onclick="prevPage()">⬅ Prev</button>
-      <button type="button" onclick="nextPage()">Next ➡</button>
-      <audio id="bgMusic" style="padding-top:0.5%;" autoplay controls></audio>
+
+<div class="controls">
+    <button type="button" onclick="prevPage()">⬅ Prev</button>
+    <button type="button" onclick="nextPage()">Next ➡</button>
 </div>
+<audio id="bgMusic" style="padding-top:0.5%;" autoplay controls></audio>
 <!-- 🎵 CURRENT MUSIC PREVIEW -->
 <!--{% if music_url %}-->
 <!--<audio autoplay controls>-->
