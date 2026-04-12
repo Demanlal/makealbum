@@ -74,9 +74,12 @@ body{
 
 /* BUTTON */
 
-
-.controls { margin-top: 15px; }
-button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
+.controls {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding-top: 7%;
+}
 
 
 #bgVideo1{
@@ -194,6 +197,7 @@ audio{
           </div>
         {% endif %}
 
+
       {% endfor %}
     </div>
 
@@ -201,12 +205,12 @@ audio{
 <!--    <button onclick="prevPage()">⬅ Prev</button>-->
 <!--    <button onclick="nextPage()">Next ➡</button>-->
 <!--</div>-->
-
 <div class="controls">
     <button type="button" onclick="prevPage()">⬅ Prev</button>
     <button type="button" onclick="nextPage()">Next ➡</button>
 </div>
-<audio id="bgMusic" style="padding-top:0.5%;" autoplay controls></audio>
+
+<audio id="bgMusic" autoplay controls></audio>
 <!-- 🎵 CURRENT MUSIC PREVIEW -->
 <!--{% if music_url %}-->
 <!--<audio autoplay controls>-->
