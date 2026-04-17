@@ -119,7 +119,14 @@
             <button class="btn btn-primary">
                 📥 Download Selected
             </button>
+            <button type="submit"
+                    formaction="{% url 'delete-selected' %}"
+                    class="btn btn-danger"
+                    onclick="return confirm('Are you sure you want to delete selected photos?')">
+                🗑 Delete Selected
+            </button>
         </div>
+
 
         <div class="row">
             {% for photo in album.photos.all %}

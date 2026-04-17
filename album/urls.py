@@ -20,8 +20,10 @@ urlpatterns = [
 
     path('user-approval/', views.approve_users, name='user-approval'),
     path('photo/download/<int:photo_id>/', views.download_photo, name='download-photo'),
+
     path('album/<uuid:album_id>/download/', views.download_album, name='download-album'),
     path('photos/download-selected/', views.download_selected_photos, name='download-selected'),
+    path('delete-selected/', views.delete_selected_photos, name='delete-selected'),
     path('album/request/success/',views.album_request_success,name='album-request-success'),
     path('users/<int:pk>/', views.user_detail, name='user-detail'),
     path('users/<int:pk>/update/', views.user_update, name='user-update'),

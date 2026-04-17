@@ -199,6 +199,32 @@ def download_selected_photos(request):
     response = HttpResponse(buffer, content_type='application/zip')
     response['Content-Disposition'] = 'attachment; filename="selected_photos.zip"'
     return response
+import os
+from django.shortcuts import redirect
+from django.contrib import messages
+from .models import Photo
+
+def delete_selected_photos(request):
+    # ✅ yaha lagana hai (sabse pehle)
+    if not request.user.is_staff:
+        messages.error(request, "Permission denied")
+        return redirect('home')
+
+    if request.method == "POST":
+        photo_ids = request.POST.getlist('photo_ids')
+
+        photos = Photo.objects.filter(id__in=photo_ids)
+
+        for photo in photos:
+            import os
+            if photo.image and os.path.isfile(photo.image.path):
+                os.remove(photo.image.path)
+
+            photo.delete()
+
+        messages.success(request, "Selected photos deleted successfully")
+
+    return redirect(request.META.get('HTTP_REFERER', '/'))
 
 def animated_slideshow(request, album_id):
     album = get_object_or_404(
