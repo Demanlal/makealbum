@@ -31,12 +31,12 @@ urlpatterns = [
     path('slideshow/<uuid:album_id>/', views.animated_slideshow, name='slideshow'),
 
     path(
-        "album/<uuid:album_id>/flip/",
+        "album/<uuid:album_id>/mobile/",
         views.album_view,
         name="flip_album"
     ),
     path(
-        "album/<uuid:album_id>/flip/",
+        "album/<uuid:album_id>/desktop/",
         views.ai_view,
         name="ai_view"
     ),
